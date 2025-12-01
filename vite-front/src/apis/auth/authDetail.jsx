@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BACK_BASIC_URL } from "../commonApis";
+// import { BACK_BASIC_URL } from "../commonApis";
 import store from "../../store/store";
 import jwtAxios from "../util/jwtUtil";
 import { deleteAccessToken } from "../../slices/jwtSlice";

@@ -94,6 +94,7 @@
 
 .myCrewMain-inner {
   /* margin-top: 24px; */
+  height: 88vh;
   padding: 24px;
   display: flex;
   gap: 24px;
@@ -102,9 +103,11 @@
 
 /* 왼쪽 : 크루 챗봇 영역 */
 .myCrewMain-inner-left {
-  flex: 1;                /* 반반 비율 */
+  height: 70vh;
+  flex: 0.8;                /* 반반 비율 */
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .myCrewMain-inner-left .chat-bot {
@@ -117,6 +120,8 @@
 
   display: flex;
   flex-direction: column;
+
+  overflow: hidden;
 }
 
 /* 챗봇 안에 나중에 리스트/입력창 넣었을 때 대충 맞게 보이도록 */
@@ -154,13 +159,19 @@
 
 /* 오른쪽 : 크루 정보 영역 */
 .myCrewMain-inner-right {
-  flex: 1;                /* 반반 비율 */
+  
+  height: 70vh;
+  flex: 1.2;                /* 반반 비율 */
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 16px;
 }
 
 .myCrewMain-inner-right .top {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
   background: #ffffff;
   border-radius: 16px;
   padding: 16px;
@@ -171,17 +182,21 @@
   align-items: center;
 }
 
-/* .myCrewMain-inner-right .myCrewMainImage {
-} */
+
 
 .myCrewMain-inner-right .myCrewMainImage .crewImage {
-  object-fit: cover;
+  width: 500px;
+  height: 300px;
+
+  /* object-fit: cover; */
   display: block;
   border-radius: 12px;
 }
 
 /* 아래 정보 리스트 카드 */
 .myCrewMain-inner-right .bottom {
+  width: 90%;
+  flex: 1;
   background: #ffffff;
   border-radius: 16px;
   padding: 16px 20px;

@@ -1,0 +1,30 @@
+ version: '3.8'
+ services:
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"    # 스프링에서 접속
+      - "15672:15672"  # 웹 콘솔 (http://localhost:15672)
+  backend:
+    build:
+      context: .  # 프로젝트 루트 폴더
+      dockerfile: boackendspring/Dockerfile  # 백엔드 Dockerfile 위치
+    #image: 도커아이디/도커허브이미지(백앤드):latest
+    image: ther3fore/boackendspring-backend:latest
+    ports:
+      - "8090:8090"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    restart: always
+
+  frontend:
+    build:
+      context: .  # 프로젝트 루트 폴더
+      dockerfile: vite-front/Dockerfile  # 프론트엔드 Dockerfile 위치
+    image: ther3fore/vite-front-frontend:latest  
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always

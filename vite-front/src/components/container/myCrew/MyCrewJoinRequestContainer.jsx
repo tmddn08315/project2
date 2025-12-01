@@ -67,13 +67,13 @@ const MyCrewJoinRequestContainer = () => {
 
         )
         console.log(res.data)
+        alert("내 크루 가입승인 성공")
         
       } catch (error) {
         console.log(error)
         console.log("내 크루 가입승인 실패")
         alert("내 크루 가입승인 실패")
       }
-      alert("내 크루 가입승인 성공")
       MyCrewjoinRequest(0);
   }
   //크루가입거절
@@ -92,12 +92,12 @@ const MyCrewJoinRequestContainer = () => {
 
         )
         console.log(res.data)
+        alert("내 크루 가입거절 성공")
         
       } catch (error) {
         console.log("내 크루 가입거절 실패")
         alert("내 크루 가입거절 실패")
       }
-      alert("내 크루 가입거절 성공")
       MyCrewjoinRequest(0)     
   }
   

@@ -77,6 +77,7 @@ const MyCrewMemberContainer = () => {
       console.log(res.data)
       alert(res.data)
       
+      alert("내크루원 삭제 성공")
     } catch (error) {
       console.log("내크루원 삭제 실패")
       alert("내크루원 삭제 실패")

@@ -129,12 +129,12 @@ const MyCrewRunContainer = () => {
         )
         console.log(res.data.crewRun)
         
+        alert('런닝스케줄 만들기 성공')
       } catch (error) {
         console.log("내 크루런닝 스케줄 만들기 post 실패")
         alert("내 크루런닝 스케줄 만들기 post 실패")
         console.log("data:", error.response?.data);
       }
-      alert('런닝스케줄 만들기 성공')
       setAddRunBtnModal(false)
       setCreateRunData(crewRunCreateData)
       myCrewRun();
@@ -195,12 +195,12 @@ const MyCrewRunContainer = () => {
       const res = await axios.delete(`/api/mycrew/${crewId}/run/delete/${runId}`)
       console.log(res.data)
       
+      alert("런닝스케줄 삭제 성공")
     } catch (error) {
       console.log("런닝스케줄 삭제 실패")
       alert("런닝스케줄 삭제 실패")
       
     }
-    alert("런닝스케줄 삭제 성공")
     setMyCrewRunDetailModal(false)
     myCrewRun();  
   }
@@ -235,11 +235,11 @@ const MyCrewRunContainer = () => {
       const res = await axios.post(`/api/mycrew/${crewId}/run/${runId}/member/${memberId}/yes`)
       console.log(res.data)
       
+      alert("크루런닝 스케줄 참가 성공")
     } catch (error) {
       console.log("크루런닝 스케줄 참가 실패")
       alert("크루런닝 스케줄 참가 실패")
     }
-    alert("크루런닝 스케줄 참가 성공")
     onMyCrewRunMember(runId);
     
   }
@@ -251,11 +251,11 @@ const MyCrewRunContainer = () => {
       const res = await axios.delete(`/api/mycrew/${crewId}/run/${runId}/member/${memberId}/no`)
       console.log(res.data)
       
+      alert("크루런닝 스케줄 참가 취소 성공")
     } catch (error) {
       console.log("크루런닝 스케줄 참가 취소 실패")
       alert("크루런닝 스케줄 참가 취소 실패")
     }
-    alert("크루런닝 스케줄 참가 취소 성공")
     onMyCrewRunMember(runId);
     
   }
