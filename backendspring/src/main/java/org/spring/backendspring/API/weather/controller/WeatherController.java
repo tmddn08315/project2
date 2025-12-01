@@ -25,18 +25,35 @@ public class WeatherController {
 
     @GetMapping("/search/{q}")
     public ResponseEntity<?> search(@PathVariable("q") String q) {
-        //URL
         String apiURL = "http://api.openweathermap.org/data/2.5/weather?q=" + q + "&appid=" + key;
-        //Header
+        
+        // Header
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("Content-type", "application/json");
-        String responseBody= OpenApiUtil.get(apiURL,requestHeaders);
-        System.out.println(responseBody+" responseBody");
-        // JSON -> JAVA 변경 -> DTO에추가 -> Entity -> DB저장
-        weatherService.insertWeather(responseBody);
+        
+        String responseBody = null;
+        try {
+            // API 호출 및 응답 받기
+            responseBody = OpenApiUtil.get(apiURL, requestHeaders);
+            
+            if (responseBody == null || responseBody.contains("\"cod\":\"404\"")) {
+                // API에서 도시를 찾지 못했거나 응답이 비어있는 경우
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "도시 정보를 찾을 수 없습니다: " + q));
+            }
 
-        Map<String,String> weather=new HashMap<>();
-        weather.put("weather",responseBody);
-        return ResponseEntity.status(HttpStatus.OK).body(weather);
+            System.out.println(responseBody + " responseBody");
+            
+            // JSON → Java 객체 변환 → DB 저장
+            weatherService.insertWeather(responseBody);
+            
+            Map<String, String> weather = new HashMap<>();
+            weather.put("weather", responseBody);
+            return ResponseEntity.status(HttpStatus.OK).body(weather);
+
+        } catch (Exception e) {
+            System.err.println("날씨 API 호출 또는 처리 중 오류 발생: " + e.getMessage());
+            // OpenApiUtil.get()에서 발생할 수 있는 일반적인 I/O 오류 처리
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "날씨 정보 처리 중 서버 오류가 발생했습니다."));
+        }
     }
 }

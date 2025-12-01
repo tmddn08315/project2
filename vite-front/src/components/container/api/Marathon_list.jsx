@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { BACK_BASIC_URL } from "../../../apis/commonApis";
 import "../../../css/api/Marathon_list.css"; 
 
 const OPEN_WEATHER_KEY = import.meta.env.VITE_OPEN_WEATHER_KEY; 
@@ -175,8 +176,8 @@ const MarathonApiPage = () => {
         setLoading(true);
         
         // 쿼리 파라미터 구성
-        let url = `/api/marathons?page=${pageNumber}&size=${size}`;
-        if (search) {
+        let url = `${BACK_BASIC_URL}/api/marathons?page=${pageNumber}&size=${size}`;        
+        if (search) {
             url += `&searchTerm=${encodeURIComponent(search)}`;
         }
 

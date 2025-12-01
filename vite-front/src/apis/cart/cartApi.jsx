@@ -1,6 +1,8 @@
 import jwtAxios from "../util/jwtUtil";
+import { BACK_BASIC_URL } from "../commonApis";
 
-const CART_API = "http://localhost:8088/api/cart";
+// const CART_API = "http://localhost:8088/api/cart";
+const CART_API = `${BACK_BASIC_URL}/api/cart`;
 
 // === JWT 기반 장바구니 조회 ===
 export const getCartByToken = async () => {

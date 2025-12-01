@@ -2,9 +2,11 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import SilderInner from "./SilderInner";
+import { BACK_BASIC_URL } from "../../../apis/commonApis";
 
 import "../../../css/store/storeIndex.css";
 import "../../../css/store/storeIndexSlide.css";
+
 
 
 
@@ -34,6 +36,7 @@ const ShopMainContainer = () => {
   const fetchData = async (page) => {
     const response = await axios.get(
       `http://localhost:8088/api/shop?page=${page}`
+      //  `${BACK_BASIC_URL}/api/shop?page=${page}`
     );
     const data = response.data;
     console.log(`[LOG] 페이지 ${page + 1}의 데이터를 요청합니다.`);

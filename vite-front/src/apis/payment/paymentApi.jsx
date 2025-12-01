@@ -1,7 +1,11 @@
 import jwtAxios from "../util/jwtUtil"; // JWT 자동 갱신 처리된 axios
+import { BACK_BASIC_URL } from "../commonApis";
 
-const PAYMENT_API = "http://localhost:8088/api/payments";
-const PAYMENT_ITEM_API = "http://localhost:8088/api/payment-items";
+
+// const PAYMENT_API = "http://localhost:8088/api/payments";
+// const PAYMENT_ITEM_API = "http://localhost:8088/api/payment-items";
+const PAYMENT_API = `${BACK_BASIC_URL}/api/payments`;
+const PAYMENT_ITEM_API = `${BACK_BASIC_URL}/api/payment-items`;
 
 // -----------------------------
 // CRUD API

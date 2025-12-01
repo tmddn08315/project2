@@ -45,7 +45,7 @@ public interface CartItemRepository extends JpaRepository<CartItemEntity, Long> 
     // 기존 메서드
     List<CartItemEntity> findByCartEntityAndItemEntity_IdIn(CartEntity cartEntity, List<Long> itemIds);
 
-    // ⭐️ [추가] CartItem과 ItemEntity를 JOIN FETCH하여 N+1 문제 해결
+    // CartItem과 ItemEntity를 JOIN FETCH하여 N+1 문제 해결
     @Query("SELECT ci FROM CartItemEntity ci JOIN FETCH ci.itemEntity WHERE ci.cartEntity = :cartEntity AND ci.itemEntity.id IN :itemIds")
     List<CartItemEntity> findByCartEntityAndItemEntity_IdInWithItem(
             @Param("cartEntity") CartEntity cartEntity,

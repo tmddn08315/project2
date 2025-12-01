@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { BACK_BASIC_URL } from "../../../apis/commonApis";
 
 const PaymentApprovalPage = () => {
   const navigate = useNavigate();
@@ -15,10 +16,12 @@ const PaymentApprovalPage = () => {
       return;
     }
 
+    const API_URL = `${BACK_BASIC_URL}/api/payments/approval/${paymentId}/${productPrice}/${memberId}`;
+
     // 백엔드 승인 API 호출
     axios
-      .get(`http://localhost:8088/api/payments/approval/${paymentId}/${productPrice}/${memberId}`, {
-        params: { pg_token: pgToken, productName }
+      .get(API_URL, {
+        params: { pg_token: pgToken, productName },
       })
       .then(() => {
         // 성공 시 성공 페이지로 이동
