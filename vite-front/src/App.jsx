@@ -46,6 +46,7 @@ function App() {
     };
     userData();
   }, []);
+  
 
   // 로그인 정보가 들어와야 페이지 로드되게 해줌
   const isInitialized = useSelector((state) => state.loginSlice.isInitialized);

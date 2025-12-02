@@ -23,4 +23,11 @@ public interface CrewRunRepository extends JpaRepository<CrewRunEntity,Long> {
 
 
     List<CrewRunEntity> findByStartAtBetween(LocalDateTime dateStart, LocalDateTime dateEnd);
+
+
+    List<CrewRunEntity> findByCrewEntityIdAndStartAtBetween(Long crewId, LocalDateTime dateStart, LocalDateTime dateEnd);
+
+   
+
+
 }

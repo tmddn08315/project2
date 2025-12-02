@@ -29,8 +29,17 @@ const MyCrewMainContainer = () => {
         setMyCrew(res.data.crew)
 
       } catch (error) {
-        console.log("내 크루 get 실패");
-        // alert("내 크루 get 실패")
+        if (error.response) {
+          console.log("백엔드 응답:", error.response.data)
+      
+          
+          const data = error.response.data
+      
+          
+          const msg = data?.message || "알 수 없는 오류가 발생했습니다."
+      
+          alert(msg)
+        } 
       }
     }
     myCrewMain();

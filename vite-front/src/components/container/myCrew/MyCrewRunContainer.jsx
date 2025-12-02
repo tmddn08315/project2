@@ -90,8 +90,12 @@ const MyCrewRunContainer = () => {
       setMyCrewRunData(crewRunList)
       
     } catch (error) {
-      console.log("내 크루런닝 스케줄 get 실패")
-      alert("내 크루런닝 스케줄 get 실패")
+      if (error.response) {
+        console.log("백엔드 응답:", error.response.data)
+        const data = error.response.data    
+        const msg = data?.message || "알 수 없는 오류가 발생했습니다."
+        alert(msg)
+      }
     }
   }
   
@@ -131,9 +135,12 @@ const MyCrewRunContainer = () => {
         
         alert('런닝스케줄 만들기 성공')
       } catch (error) {
-        console.log("내 크루런닝 스케줄 만들기 post 실패")
-        alert("내 크루런닝 스케줄 만들기 post 실패")
-        console.log("data:", error.response?.data);
+        if (error.response) {
+          console.log("백엔드 응답:", error.response.data)
+          const data = error.response.data    
+          const msg = data?.message || "알 수 없는 오류가 발생했습니다."
+          alert(msg)
+        }
       }
       setAddRunBtnModal(false)
       setCreateRunData(crewRunCreateData)
@@ -151,10 +158,12 @@ const MyCrewRunContainer = () => {
       console.log(res.data)
       
     } catch (error) {
-      console.log("내 크루런닝 스케줄 수정 post 실패")
-      alert("내 크루런닝 스케줄 수정 post 실패")
-      console.log("status:", error.response?.status);
-    console.log("data:", error.response?.data);
+      if (error.response) {
+        console.log("백엔드 응답:", error.response.data)
+        const data = error.response.data    
+        const msg = data?.message || "알 수 없는 오류가 발생했습니다."
+        alert(msg)
+      }
     }
     alert('런닝스케줄 수정 성공')
     setMyCrewRunDetailModal(false)
@@ -182,8 +191,12 @@ const MyCrewRunContainer = () => {
       })
       
     } catch (error) {
-      console.log("내 크루런닝 스케줄 get 실패")
-      alert("내 크루런닝 스케줄 get 실패")
+      if (error.response) {
+        console.log("백엔드 응답:", error.response.data)
+        const data = error.response.data    
+        const msg = data?.message || "알 수 없는 오류가 발생했습니다."
+        alert(msg)
+      }
     }
     setMyCrewRunDetailModal(true)
   }
@@ -197,8 +210,12 @@ const MyCrewRunContainer = () => {
       
       alert("런닝스케줄 삭제 성공")
     } catch (error) {
-      console.log("런닝스케줄 삭제 실패")
-      alert("런닝스케줄 삭제 실패")
+      if (error.response) {
+        console.log("백엔드 응답:", error.response.data)
+        const data = error.response.data    
+        const msg = data?.message || "알 수 없는 오류가 발생했습니다."
+        alert(msg)
+      }
       
     }
     setMyCrewRunDetailModal(false)
@@ -222,8 +239,12 @@ const MyCrewRunContainer = () => {
       setEndPage(res.data.endPage)
       setTotalPages(res.data.totalPages)
     } catch (error) {
-      console.log("내 크루런닝 스케줄 참가자 get 실패")
-      alert("크루 런닝 스케줄 참가자 get 실패")
+      if (error.response) {
+        console.log("백엔드 응답:", error.response.data)
+        const data = error.response.data    
+        const msg = data?.message || "알 수 없는 오류가 발생했습니다."
+        alert(msg)
+      }
     }
     setMyCrewRunMemberModal(true)
   }
@@ -237,8 +258,12 @@ const MyCrewRunContainer = () => {
       
       alert("크루런닝 스케줄 참가 성공")
     } catch (error) {
-      console.log("크루런닝 스케줄 참가 실패")
-      alert("크루런닝 스케줄 참가 실패")
+      if (error.response) {
+        console.log("백엔드 응답:", error.response.data)
+        const data = error.response.data    
+        const msg = data?.message || "알 수 없는 오류가 발생했습니다."
+        alert(msg)
+      }
     }
     onMyCrewRunMember(runId);
     
@@ -253,8 +278,12 @@ const MyCrewRunContainer = () => {
       
       alert("크루런닝 스케줄 참가 취소 성공")
     } catch (error) {
-      console.log("크루런닝 스케줄 참가 취소 실패")
-      alert("크루런닝 스케줄 참가 취소 실패")
+      if (error.response) {
+        console.log("백엔드 응답:", error.response.data)
+        const data = error.response.data    
+        const msg = data?.message || "알 수 없는 오류가 발생했습니다."
+        alert(msg)
+      }
     }
     onMyCrewRunMember(runId);
     

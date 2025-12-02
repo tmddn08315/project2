@@ -40,8 +40,12 @@ const MyCrewMemberContainer = () => {
       setTotalPages(res.data.totalPages)
       
     } catch (error) {
-      console.log("내크루원 리스트 get실패")
-      alert("내크루원 리스트 get실패")
+      if (error.response) {
+        console.log("백엔드 응답:", error.response.data)
+        const data = error.response.data    
+        const msg = data?.message || "알 수 없는 오류가 발생했습니다."
+        alert(msg)
+      }
     }
   }
 
@@ -63,8 +67,12 @@ const MyCrewMemberContainer = () => {
       setDetailData(res.data.crewMember)
       setDetailOpen(true)
     } catch (error) {
-      console.log("내크루원 디테일 get실패")
-      alert("내크루원 디테일 get실패")
+      if (error.response) {
+        console.log("백엔드 응답:", error.response.data)
+        const data = error.response.data    
+        const msg = data?.message || "알 수 없는 오류가 발생했습니다."
+        alert(msg)
+      }
     }
     onMyCrewMemberList();
   }
@@ -79,8 +87,12 @@ const MyCrewMemberContainer = () => {
       
       alert("내크루원 삭제 성공")
     } catch (error) {
-      console.log("내크루원 삭제 실패")
-      alert("내크루원 삭제 실패")
+      if (error.response) {
+        console.log("백엔드 응답:", error.response.data)
+        const data = error.response.data    
+        const msg = data?.message || "알 수 없는 오류가 발생했습니다."
+        alert(msg)
+      }
     }
     onMyCrewMemberList();
   }
