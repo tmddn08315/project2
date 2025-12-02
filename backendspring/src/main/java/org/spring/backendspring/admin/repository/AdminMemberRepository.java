@@ -16,16 +16,18 @@ public interface AdminMemberRepository extends JpaRepository<MemberEntity, Long>
             String nickKeyword,
             Pageable pageable);
 
-    Page<MemberEntity> findByUserEmailContaining(Pageable pageable, String search);
-
-    Page<MemberEntity> findByUserNameContaining(Pageable pageable, String search);
-
-    Page<MemberEntity> findByNickNameContaining(Pageable pageable, String search);
-
     @Query("SELECT COUNT(m) FROM MemberEntity m")
     long countAll();
 
     @Query("SELECT COUNT(m) FROM MemberEntity m WHERE DATE(m.createTime) = CURRENT_DATE")
     long countToday();
+
+    Page<MemberEntity> findByIsDeletedFalse(Pageable pageable);
+
+    Page<MemberEntity> findByUserEmailContainingAndIsDeletedFalse(Pageable pageable, String search);
+
+    Page<MemberEntity> findByUserNameContainingAndIsDeletedFalse(Pageable pageable, String search);
+
+    Page<MemberEntity> findByNickNameContainingAndIsDeletedFalse(Pageable pageable, String search);
 
 }

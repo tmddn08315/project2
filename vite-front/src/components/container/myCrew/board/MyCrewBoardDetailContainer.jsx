@@ -134,16 +134,6 @@ const MyCrewBoardDetailContainer = () => {
     }
   }
 
-  // const updateComment = async (commentId, comment) => {
-  //   try {
-  //     await axios.put(`/api/mycrew/${crewId}/board/${boardId}/comment/update/${commentId}`,
-
-  //     )
-  //   } catch (err) {
-
-  //   }
-  // }
-
   console.log(loginMemberId)
   console.log(board.memberId)
   console.log(accessToken)
@@ -179,10 +169,10 @@ const MyCrewBoardDetailContainer = () => {
           <div className="crewBoardImage">
             {board.newFileName && board.newFileName.length > 0 && (
               <div className="crewBoardImages">
-                {board.newFileName.map((fileName, index) => (
+                {board.fileUrl.map((fileUrl, index) => (
                   <img
                     key={index} 
-                    src={`http://localhost:8088/upload/${fileName}`} 
+                    src={fileUrl} 
                     alt={`${board.title} 이미지 ${index + 1}`}
                     className='crewBoardImg'
                   />
@@ -206,7 +196,7 @@ const MyCrewBoardDetailContainer = () => {
                 required
                 placeholder='타인을 배려하는 마음으로 댓글을 달아주세요.' 
               />
-              <button type="button" onClick={submitComment}>등록</button>
+              <button type="button" onClick={submitComment}>✏️등록</button>
             </div>
           </div>
           <div className="commentList">
@@ -246,14 +236,14 @@ const MyCrewBoardDetailContainer = () => {
       </div>
       <div className="crewBoardBtn">
         <div className="crewBoardListBtn">
-          <button className='crewBoardBtnBtn' onClick={() => navigate(`/mycrew/${crewId}/board/list`)}>글목록</button>
+          <button className='crewBoardBtnBtn' onClick={() => navigate(`/mycrew/${crewId}/board/list`)}>📄글목록</button>
         </div>
         <div className="crewBoardWrite">
-          <button className='crewBoardBtnBtn' onClick={() => navigate(`/mycrew/${crewId}/board/create`)}>글작성</button>
+          <button className='crewBoardBtnBtn' onClick={() => navigate(`/mycrew/${crewId}/board/create`)}>📝글작성</button>
           {board.memberId === loginMemberId && (
             <>
-              <button className='crewBoardBtnBtn' onClick={() => navigate(`/mycrew/${crewId}/board/update/${boardId}`)}>수정</button>
-              <button className='crewBoardBtnBtn' onClick={deleteBoard}>삭제</button>
+              <button className='crewBoardBtnBtn' onClick={() => navigate(`/mycrew/${crewId}/board/update/${boardId}`)}>✏️수정</button>
+              <button className='crewBoardBtnBtn' onClick={deleteBoard}>✖️삭제</button>
             </>
           )}
         </div>

@@ -11,6 +11,8 @@ import org.spring.backendspring.crew.crew.dto.CrewDto;
 import org.spring.backendspring.crew.crew.service.CrewService;
 import org.spring.backendspring.crew.crewJoin.dto.CrewJoinRequestDto;
 import org.spring.backendspring.crew.crewJoin.service.CrewJoinRequestService;
+import org.spring.backendspring.crew.crewMember.dto.CrewMemberDto;
+import org.spring.backendspring.crew.crewMember.service.CrewMemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -35,6 +37,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class CrewController {
 
     private final CrewService crewService;
+    private final CrewMemberService crewMemberService;
     private final CrewJoinRequestService crewJoinRequestService;
 
     @PutMapping("/update/{crewId}")
@@ -117,7 +120,8 @@ public class CrewController {
               throw new IllegalArgumentException("본인 크루 리스트는 본인만 조회 가능");
           }
 
-         List<CrewDto> mycrewList = crewService.myCrewList(memberId);
+        //  List<CrewDto> mycrewList = crewService.myCrewList(memberId);
+         List<CrewMemberDto> mycrewList = crewMemberService.myCrewList(memberId);
         
          return ResponseEntity.ok(mycrewList);
      }

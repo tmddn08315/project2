@@ -1,5 +1,6 @@
 package org.spring.backendspring.item.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.spring.backendspring.item.dto.ItemDto;
@@ -46,7 +47,7 @@ public class ItemController {
 
     // URL: http://localhost:8088/api/shop/detail/{id}
     @GetMapping("/detail/{id}")
-    public ResponseEntity<?> getBoardDetail(@PathVariable("id") Long id) {
+    public ResponseEntity<?> getBoardDetail(@PathVariable("id") Long id) throws IOException {
 
         // Bring Id(Long id ) = > item ID 
         // BoardDto boardDto = boardService.boardDetail(id);

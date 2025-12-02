@@ -35,8 +35,6 @@ public class ItemImgEntity extends BasicTime {
     private String oldName;
     @Column(nullable = false)
     private String newName;
-    @Column(nullable = false)
-    private String fileUrl;
 
     // N:1
     @ManyToOne
@@ -48,7 +46,6 @@ public class ItemImgEntity extends BasicTime {
                 .oldName(imgDto.getOldName())
                 .newName(imgDto.getNewName())
                 .itemEntity(imgDto.getItemEntity())
-                .fileUrl(imgDto.getFileUrl())
             .build();
     }
 

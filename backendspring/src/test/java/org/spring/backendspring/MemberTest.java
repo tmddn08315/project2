@@ -1,5 +1,5 @@
 //  package org.spring.backendspring;
-
+//
 //  import org.junit.jupiter.api.Test;
 //  import org.spring.backendspring.common.Gender;
 //  import org.spring.backendspring.common.role.MemberRole;
@@ -8,15 +8,15 @@
 //  import org.springframework.beans.factory.annotation.Autowired;
 //  import org.springframework.boot.test.context.SpringBootTest;
 //  import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+//
 //  @SpringBootTest
 //  public class MemberTest {
-
+//
 //      @Autowired
 //      private MemberRepository memberRepository;
-
+//
 //      private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
+//
 //      @Test
 //      public void insertDummyMembers() {
 //          for (int i = 1; i <= 30; i++) {
@@ -31,13 +31,13 @@
 //                      .address("서울시 테스트구 " + i + "번지")
 //                      .role(MemberRole.MEMBER)
 //                      .build();
-
+//
 //              memberRepository.save(member);
 //          }
-
+//
 //          System.out.println("✅ 30명의 더미 회원이 성공적으로 저장되었습니다!");
 //      }
-
+//
 //      @Test
 //      public void insertAdminMember() {
 //          MemberEntity admin = MemberEntity.builder()
@@ -51,7 +51,7 @@
 //                  .address("서울시 관리자구 1번지")
 //                  .role(MemberRole.ADMIN)
 //                  .build();
-
+//
 //          memberRepository.save(admin);
 //          System.out.println("✅ 관리자 계정이 성공적으로 저장되었습니다!");
 //      }

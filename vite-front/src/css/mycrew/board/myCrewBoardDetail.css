@@ -97,7 +97,7 @@
   
 .crewBoardImage .crewBoardImages>img.crewBoardImg {
     width: 100%;
-    max-width: 500px;
+    max-width: 450px;
     border-radius: 3px;
     object-fit: cover;
   }
@@ -110,7 +110,7 @@
 }
   
 .crewBoardBtn button.crewBoardBtnBtn {
-    padding: 6px 14px;
+    padding: 6px 10px 6px 8px;
     border: none;
     border-radius: 6px;
     background-color: #538ed1; /* 파란색 포인트 */
@@ -178,7 +178,7 @@
   
 .writeComment .writeComment-con>button {
     align-self: flex-end;
-    padding: 6px 14px;
+    padding: 6px 10px 6px 8px;
     border-radius: 5px;
     border: none;
     background-color: hsl(212, 67%, 59%);

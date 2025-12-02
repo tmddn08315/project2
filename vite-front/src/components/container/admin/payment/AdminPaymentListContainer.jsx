@@ -5,6 +5,7 @@ import { BACK_BASIC_URL } from "../../../../apis/commonApis";
 
 import "../../../../css/admin/container/AdminPaymentListContainer.css";
 import { useSelector } from "react-redux";
+import { formatDate } from "../../../../js/formatDate";
 
 const AdminPaymentListContainer = () => {
   const [payments, setPayments] = useState([]);
@@ -55,11 +56,10 @@ const AdminPaymentListContainer = () => {
               <tr>
                 <th>결제ID</th>
                 <th>회원ID</th>
-                <th>총금액</th>
-                <th>주소</th>
+                <th>주문자</th>
                 <th>결제방식</th>
                 <th>결제시간</th>
-                <th>결과</th>
+                <th>총금액</th>
                 <th>상태</th>
                 <th>상세</th>
               </tr>
@@ -69,11 +69,10 @@ const AdminPaymentListContainer = () => {
                 <tr key={pay.id}>
                   <td>{pay.paymentId}</td>
                   <td>{pay.memberId}</td>
-                  <td>{pay.productPrice.toLocaleString()}원</td>
-                  <td>{pay.paymentAddr}</td>
+                  <td>{pay.paymentReceiver}</td>
                   <td>{pay.paymentType}</td>
-                  <td>{pay.createTime}</td>
-                  <td>{pay.isSucceeded}</td>
+                  <td>{formatDate(pay.createTime)}</td>
+                  <td>{pay.productPrice.toLocaleString()}원</td>
                   <td>
                     <select
                       value={pay.paymentStatus}

@@ -7,6 +7,7 @@ import LogoutBtn from "./LogoutBtn";
 
 // CSS
 import "../../css/common/header.css";
+import BoardModal from "./HeaderModal/BoardModal";
 
 // slice 테스트 확인용으로 작성했습니다.
 const Header = () => {
@@ -61,12 +62,12 @@ const Header = () => {
                 <Link to="/store">STORE</Link>
               </li>
             </HeaderStore>
+            <BoardModal>
             <li>
-              <Link to="/board">BOARD</Link>
+              <Link to="/board">BOARD</Link> 
             </li>
-            <li>
-              <Link to="/notice">NOTICE</Link>
-            </li>
+            </BoardModal>
+       
             <li>
               <Link to="/open/marathon">INFORMATION</Link>
             </li>

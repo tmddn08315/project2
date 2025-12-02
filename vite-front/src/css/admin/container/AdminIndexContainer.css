@@ -1,123 +1,45 @@
-/* 전체 레이아웃 */
 .indexCon {
-  display: grid;
-  width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 30px 20px;
-
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-areas:
-    "title title"
-    "summary summary"
-    "member crew"
-    "payment board";
-  gap: 24px;
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
 }
 
-/* 제목 */
-.indexCon > h2 {
-  grid-area: title;
-  font-size: 28px;
-  font-weight: 700;
-  color: #1f2937; /* 진회색 */
-  margin: 0 0 5px 0;
-}
-
-/* 공통 카드 박스 */
+/* 공통 카드 스타일 */
 .summaryCard,
-.memberCard,
-.crewCard,
-.paymentCard,
-.boardCard {
-  background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  padding: 24px 28px;
-  transition: transform .2s ease, box-shadow .2s ease;
+.chartWrapper,
+.cardBlock {
+  background: #f4f8ff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-/* 호버 효과 */
-.summaryCard:hover,
-.memberCard:hover,
-.crewCard:hover,
-.paymentCard:hover,
-.boardCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+/* SUMMARY 카드 크기 크게 */
+.summaryCard {
+  font-size: 16px;
+  font-weight: 500;
 }
 
-/* 카드 제목 */
-.summaryCard h3,
-.memberCard h3,
-.crewCard h3,
-.paymentCard h3,
-.boardCard h3 {
-  font-size: 20px;
-  font-weight: 700;
-  color: #2563eb; /* 파란색(기존 스타일) */
-  margin-bottom: 16px;
+/* 차트 박스 */
+.chartWrapper {
+  height: 350px;
 }
 
-/* 리스트 스타일 */
-.summaryCard ul,
-.memberCard ul,
-.crewCard ul,
-.paymentCard ul,
-.boardCard ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+/* 아래 4카드 가로 일렬(4개 한 줄) */
+.bottomGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
-.summaryCard ul li,
-.memberCard ul li,
-.crewCard ul li,
-.paymentCard ul li,
-.boardCard ul li {
-  font-size: 15px;
-  color: #374151;
-  padding: 6px 0;
-  border-bottom: 1px solid #e5e7eb;
+/* 공통 카드 스타일 */
+.cardBlock {
+  background: #f4f8ff;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-.summaryCard ul li:last-child,
-.memberCard ul li:last-child,
-.crewCard ul li:last-child,
-.paymentCard ul li:last-child,
-.boardCard ul li:last-child {
-  border-bottom: none;
-}
-
-/* 그리드 영역 매핑 */
-.summaryCard { grid-area: summary; }
-.memberCard { grid-area: member; }
-.crewCard { grid-area: crew; }
-.paymentCard { grid-area: payment; }
-.boardCard { grid-area: board; }
-
-/* 반응형 */
-@media (max-width: 768px) {
-  .indexCon {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "title"
-      "summary"
-      "member"
-      "crew"
-      "payment"
-      "board";
-    padding: 20px 12px;
-  }
-
-  .summaryCard,
-  .memberCard,
-  .crewCard,
-  .paymentCard,
-  .boardCard {
-    padding: 20px;
-  }
-
-  .indexCon > h2 {
-    font-size: 24px;
-  }
-}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { BACK_BASIC_URL } from "../../../../apis/commonApis";
+import { BACK_BASIC_URL, IMAGES_S3_URL } from "../../../../apis/commonApis";
 
 import "../../../../css/admin/container/AdminItemDetailContainer.css";
 import jwtAxios from "../../../../apis/util/jwtUtil";
@@ -98,6 +98,11 @@ const AdminItemDetailContainer = () => {
 
   return (
     <div className="admin-item-detail">
+      {console.log(item)}
+      {console.log("IMAGES_S3_URL:", IMAGES_S3_URL)}
+      {console.log("item:", item)}
+      {item.itemImgDtos && item.itemImgDtos.length > 0 &&
+        console.log("newFileName:", item.itemImgDtos[0].newName)}
       <h2>상품 상세 / 수정</h2>
       <div className="item-detail-con">
         <div className="detail-left">
@@ -105,7 +110,7 @@ const AdminItemDetailContainer = () => {
           <div className="detail-img">
             {item.itemImgDtos && item.itemImgDtos.length > 0 && (
               <img
-                src={`${BACK_BASIC_URL}/upload/${item.itemImgDtos[0].newName}`}
+                src={`${IMAGES_S3_URL}/${item.itemImgDtos[0].newName}`}
                 alt="상품 이미지"
                 width="250"
                 height="350"

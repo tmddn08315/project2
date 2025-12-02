@@ -49,13 +49,15 @@ form.crewBoardSearch>select:focus {
   }
 
 form.crewBoardSearch>button.crewBoardSearch {
-    padding: 8px 16px;
-    background-color: #538ed1;
+    padding: 8px 12px 8px 10px;
+    background-color: #598dee;
+    letter-spacing: 0.5px;
     color: white;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.2s;
+    
 }
 
 form.crewBoardSearch>button.crewBoardSearch:hover {
@@ -65,7 +67,7 @@ form.crewBoardSearch>button.crewBoardSearch:hover {
 /* 게시글 작성 버튼 */
 .crewBoardList-con button.createCrewBoard {
 align-self: flex-end;
-padding: 8px 16px;
+padding: 8px 12px 8px 10px;
 background-color: #60a5fa;
 color: white;
 border: none;

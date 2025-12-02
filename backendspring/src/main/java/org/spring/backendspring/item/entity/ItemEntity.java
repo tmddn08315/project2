@@ -51,14 +51,6 @@ public class ItemEntity extends BasicTime {
     private int itemSize;
     private int attachFile;
 
-
-    private String newFileName;
-    private String oldFileName;
-
-    private String itemImage;
-    // createTime
-    // updateTime
-
     // N:1 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

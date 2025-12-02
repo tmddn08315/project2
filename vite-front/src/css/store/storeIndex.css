@@ -3,9 +3,7 @@
 .itemList {
     width: 100%;
 
-    /* 중앙 정렬: 이 설정은 유지 */
     margin: 0 auto;
-    /* 내부 여백: 유지 */
     padding: 0 40px;
      background-image: linear-gradient(to top, #ffffff,#ffffff,#ffffff,#d0e5ffbf);
   padding: 20px;
@@ -41,11 +39,13 @@
 }
 .itemList-banner{
 
+    /* banner size adject here. */
     border-radius: 20px;
     padding-top: 3vh;
     padding-bottom: 1vh;
 
-      width: 100vw;
+      width: 85vw;
+      /* height: 20%; */
   border-radius: 3px solid red;
    
 }
@@ -88,8 +88,8 @@
     width: 100%;
     overflow: hidden;
 
-    height: 800px;
-    /* 원하는 높이로 설정 */
+    
+  
 }
 
 
@@ -148,7 +148,7 @@
     overflow: hidden;
 }
 .item-image-placeholder-new .gallery-image {
-    position: absolute; /* 부모 컨테이너 기준 절대 위치 */
+    position: absolute; 
     top: 0;
     left: 0;
     width: 100%;

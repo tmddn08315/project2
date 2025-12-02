@@ -1,6 +1,9 @@
 package org.spring.backendspring.crew.crewRun.service.impl;
 
 import lombok.RequiredArgsConstructor;
+
+import org.spring.backendspring.common.exception.CustomException;
+import org.spring.backendspring.common.exception.ErrorCode;
 import org.spring.backendspring.crew.crewRun.dto.CrewRunMemberDto;
 import org.spring.backendspring.crew.crewRun.entity.CrewRunEntity;
 import org.spring.backendspring.crew.crewRun.entity.CrewRunMemberEntity;
@@ -29,34 +32,45 @@ public class CrewRunMemberServiceImpl implements CrewRunMemberService {
 
     @Override
     public Page<CrewRunMemberDto> findCrewRunMemberList(Long crewId, Long runId, Pageable pageable) {
-        crewRunRepository.findByCrewEntityIdAndId(crewId,runId)
-                .orElseThrow(()-> new NullPointerException("해당 런닝스케줄이 없음"));
-        Page<CrewRunMemberEntity> crewRunMmeberList = crewRunMemberRepository.findAllByCrewRunEntityId(runId, pageable);        
-        return crewRunMmeberList.map(CrewRunMemberDto::toCrewRunMemberDto);
+        crewRunRepository.findByCrewEntityIdAndId(crewId, runId)
+                .orElseThrow(() -> new CustomException(ErrorCode.CREW_RUN_NOT_FOUND));
+
+        Page<CrewRunMemberEntity> crewRunMemberList =
+                crewRunMemberRepository.findAllByCrewRunEntityId(runId, pageable);
+
+        return crewRunMemberList.map(CrewRunMemberDto::toCrewRunMemberDto);
     }
 
     @Override
     public void insertCrewMemberRun(Long runId, Long memberId) {
-        MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(()-> new NullPointerException("회원아닌데 어케함"));
-        CrewRunEntity crewRunEntity = crewRunRepository.findById(runId).orElseThrow(()-> new NullPointerException("런닝스케줄없는데 어케함"));
-        Optional<CrewRunMemberEntity> opCrewRunMember = crewRunMemberRepository.findByCrewRunEntityIdAndMemberEntityId(runId, memberId);
+        MemberEntity memberEntity = memberRepository.findById(memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+
+        CrewRunEntity crewRunEntity = crewRunRepository.findById(runId)
+                .orElseThrow(() -> new CustomException(ErrorCode.CREW_RUN_NOT_FOUND));
+
+        Optional<CrewRunMemberEntity> opCrewRunMember =
+                crewRunMemberRepository.findByCrewRunEntityIdAndMemberEntityId(runId, memberId);
+
         if (opCrewRunMember.isPresent()) {
-            throw new IllegalArgumentException("이미 런닝에 참가함");
+            throw new CustomException(ErrorCode.CREW_RUN_MEMBER_ALREADY_EXISTS);
         }
-        
-        crewRunMemberRepository.save(CrewRunMemberEntity.insertCrewRun(CrewRunMemberEntity.builder()
-                        .crewRunEntity(crewRunEntity)
-                        .memberEntity(memberEntity)
-                .build()));
+
+        crewRunMemberRepository.save(
+                CrewRunMemberEntity.insertCrewRun(
+                        CrewRunMemberEntity.builder()
+                                .crewRunEntity(crewRunEntity)
+                                .memberEntity(memberEntity)
+                                .build()
+                )
+        );
     }
 
     @Override
     public void deleteCrewMemberRun(Long runId, Long memberId) {
-        crewRunMemberRepository.findByCrewRunEntityIdAndMemberEntityId(runId,memberId)
-                        .orElseThrow(()-> new NullPointerException("해당 크루 런닝스케줄이 없음"));
+        crewRunMemberRepository.findByCrewRunEntityIdAndMemberEntityId(runId, memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.CREW_RUN_MEMBER_NOT_FOUND));
 
-        crewRunMemberRepository.deleteByCrewRunEntityIdAndMemberEntityId(runId,memberId);
+        crewRunMemberRepository.deleteByCrewRunEntityIdAndMemberEntityId(runId, memberId);
     }
-
-
 }

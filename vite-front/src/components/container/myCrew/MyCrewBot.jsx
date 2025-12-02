@@ -172,6 +172,11 @@ const MyCrewBot = ({onCrewId, onMemberId, onNickName}) => {
                 name="text"
                 value={sendOnBotMessage}
                 onChange={onChatBotChange}
+                onKeyDown={(e)=>{
+                    if (e.key === "Enter") {
+                        onChatBotSend();
+                      }
+                }}
                 placeholder="봇에게 보낼 메시지"
             />
                 <button type='button' onClick={onChatBotSend}>전송</button>

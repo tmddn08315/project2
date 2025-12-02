@@ -49,6 +49,7 @@ const CrewDetailContainer = () => {
     if (!loginMemberId) {
       alert("로그인이 필요합니다.")
     }
+    if (!window.confirm("크루 가입 신청하시겠습니까?")) return;
     try {
       const res = await jwtAxios.post(`/api/crew/joinRequest`,
         joinRequestData,
@@ -56,8 +57,9 @@ const CrewDetailContainer = () => {
       )      
       console.log(res.data)
       setJoinRequestModal(false)
+      alert('크루 가입 신청이 완료 되었습니다.')
     } catch (error) {
-      alert('크루 가입 요청 보내기 실패')
+      alert('크루 가입 요청이 실패했습니다.')
     }
   }  
 
@@ -68,7 +70,8 @@ const CrewDetailContainer = () => {
           <div className="crewDetailImage">
           {crew.newFileName?.length > 0 ? (
               <img
-                src={`http://localhost:8088/upload/${crew.newFileName[0]}`}
+                // src={`http://localhost:8088/upload/${crew.newFileName[0]}`}
+                src={crew.fileUrl[0]}
                 alt={`${crew.name} 이미지`}
                 className='crewImage'
               />

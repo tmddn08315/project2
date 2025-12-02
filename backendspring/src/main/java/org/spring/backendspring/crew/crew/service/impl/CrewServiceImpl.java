@@ -69,16 +69,16 @@ public class CrewServiceImpl implements CrewService {
         crew.setDescription(crewDto.getDescription());
         crew.setDistrict(crewDto.getDistrict());
 
-        List<CrewImageEntity> updatedImages = new ArrayList<>();
-
         List<CrewImageEntity> currentImages = crewImageRepository.findByCrewEntity(crew);
+
+        List<CrewImageEntity> updatedImages = new ArrayList<>();
 
         // 삭제할 이미지
         if (deleteImageName != null && !deleteImageName.isEmpty()) {
             for (String imageName : deleteImageName) {
                 CrewImageEntity imageEntity = crewImageRepository.findByNewName(imageName)
                         .orElseThrow(() -> new IllegalArgumentException("이미지가 존재하지 않음"));
-                // awsS3Service.deleteFile(imageEntity.getNewName());
+                awsS3Service.deleteFile(imageEntity.getNewName());
                 crewImageRepository.delete(imageEntity);
             }
         }
@@ -89,12 +89,15 @@ public class CrewServiceImpl implements CrewService {
         if (newImages != null && !newImages.isEmpty()) {
             for (MultipartFile image : newImages) {
                 if (!image.isEmpty()) {
-                    String originalFileName = image.getOriginalFilename();
-                    String newFileName = awsS3Service.uploadFile(image, path);
-                    CrewImageEntity imageEntity = CrewImageEntity.toEntity(crew, originalFileName, newFileName);
-                    CrewImageEntity savedImage = crewImageRepository.save(imageEntity);
-                    updatedImages.add(savedImage);
-                    
+                    try {
+                        String originalFileName = image.getOriginalFilename();
+                        String newFileName = awsS3Service.uploadFile(image, path); // S3 업로드
+                        CrewImageEntity imageEntity = CrewImageEntity.toEntity(crew, originalFileName, newFileName);
+                        CrewImageEntity savedImage = crewImageRepository.save(imageEntity);
+                        updatedImages.add(savedImage);
+                    } catch (IOException e) {
+                        throw new IllegalArgumentException("S3 파일 업로드 실패", e);
+                    }
                     // UUID uuid = UUID.randomUUID();
                     // String originalFileName = image.getOriginalFilename();
                     // String newFileName = uuid + "_" + originalFileName;
@@ -111,7 +114,19 @@ public class CrewServiceImpl implements CrewService {
         }
         crew.setCrewImageEntities(updatedImages);
         CrewEntity updated = crewRepository.save(crew);
-        return CrewDto.toCrewDto(updated);
+        List<String> updatedFileUrl = new ArrayList<>();
+        for (CrewImageEntity img : updatedImages) {
+            if (img.getNewName() != null || !img.getNewName().isEmpty()) {
+                try {
+                String url = awsS3Service.getFileUrl(img.getNewName());
+                updatedFileUrl.add(url);                
+                } catch (IOException e) {
+                    throw new IllegalArgumentException("S3 URL 생성 실패", e);
+                }
+            }
+        }
+        System.out.println("%%%%%%"+updatedFileUrl);
+        return CrewDto.toCrewDto2(updated, updatedFileUrl);
     }
 
     @Override
@@ -129,7 +144,7 @@ public class CrewServiceImpl implements CrewService {
         List<CrewImageEntity> crewImages = crewImageRepository.findByCrewEntity_Id(crewId);
         if (crewImages != null) {
             for (CrewImageEntity img : crewImages) {
-                // awsS3Service.deleteFile(img.getNewName());
+                awsS3Service.deleteFile(img.getNewName());
             }
         }
 
@@ -142,7 +157,6 @@ public class CrewServiceImpl implements CrewService {
         PageRequest pageRequest = PageRequest.of(page, size);
         
         Page<CrewEntity> crewEntities;
-
         
         if (subject == null || keyword == null || keyword.trim().isEmpty()) {
             crewEntities = crewRepository.findAll(pageRequest);
@@ -158,13 +172,26 @@ public class CrewServiceImpl implements CrewService {
             } else {
                 crewEntities = crewRepository.findAll(pageRequest);
             }
-        }
-        
-        if (crewEntities.isEmpty()) {
-            throw new NullPointerException("조회할 목록 없음");
-        }
+        }        
+       
+        Page<CrewDto> crewList = crewEntities.map(crew -> {
+            CrewDto crewDto = CrewDto.toCrewDto(crew);
 
-        Page<CrewDto> crewList = crewEntities.map(CrewDto::toCrewDto);
+            if (crewDto.getNewFileName() != null && !crewDto.getNewFileName().isEmpty()) {
+                List<String> fileUrls = new ArrayList<>();
+                for (String fileName : crewDto.getNewFileName()) {
+                    try {
+                        String url = awsS3Service.getFileUrl(fileName);
+                        fileUrls.add(url);
+                    } catch (IOException e) {
+                        throw new IllegalArgumentException(e);
+                    }
+
+                }
+                crewDto.setFileUrl(fileUrls);
+            }
+            return crewDto;
+        });
 
         return PagedResponse.of(crewList);
     }
@@ -174,7 +201,21 @@ public class CrewServiceImpl implements CrewService {
         CrewEntity crewEntity = crewRepository.findById(crewId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 크루"));
 
-        return CrewDto.toCrewDto(crewEntity);
+        CrewDto dto = CrewDto.toCrewDto(crewEntity);
+        if (dto.getNewFileName() != null && !dto.getNewFileName().isEmpty()) {
+            List<String> urls = new ArrayList<>();
+
+            for (String fileName : dto.getNewFileName()) {
+                try {
+                    String url = awsS3Service.getFileUrl(fileName);
+                    urls.add(url);
+                } catch (IOException e) {
+                    throw new IllegalArgumentException(e);
+                }
+            }
+            dto.setFileUrl(urls);
+        }
+        return dto;
     }
 
     // @Override
@@ -186,13 +227,35 @@ public class CrewServiceImpl implements CrewService {
 
     @Override
     public List<CrewDto> findAllCrew() {
-        return crewRepository.findAll().stream().map(CrewDto::toCrewDto).collect(Collectors.toList());
+        return crewRepository.findAll().stream().map(crew -> CrewDto.toCrewDto(crew)).collect(Collectors.toList());
     }
 
     @Override
     public List<CrewMemberDto> findMyAllCrew(Long memberId) {
         List<CrewMemberEntity> crewMemberEntities = crewMemberRepository.findByMemberEntity_id(memberId);
-        return crewMemberEntities.stream().map(CrewMemberDto::toCrewMember).collect(Collectors.toList());
+
+        List<CrewMemberDto> dtoList = new ArrayList<>();
+
+        for (CrewMemberEntity entity : crewMemberEntities) {
+            CrewMemberDto dto = CrewMemberDto.toCrewMember(entity);
+
+            if (dto.getCrewImages() != null && !dto.getCrewImages().isEmpty()) {
+                List<String> urls = new ArrayList<>();
+
+                for (String fileName : dto.getCrewImages()) {
+                    try {
+                        String url = awsS3Service.getFileUrl(fileName);
+                        urls.add(url);
+                    } catch (IOException e) {
+                        throw new IllegalArgumentException(e);
+                    }
+                }
+                dto.setFileUrl(urls);
+            }
+            dtoList.add(dto);
+        }
+
+        return dtoList;
     }
 
     @Override
@@ -205,7 +268,22 @@ public class CrewServiceImpl implements CrewService {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("이 크루의 멤버가 아닙니다."));
 
-        return CrewDto.toCrewDto(crewEntity);
+        CrewDto dto = CrewDto.toCrewDto(crewEntity);
+
+        if (dto.getNewFileName() != null && !dto.getNewFileName().isEmpty()) {
+            List<String> urls = new ArrayList<>();
+
+            for (String fileName : dto.getNewFileName()) {
+                try {
+                    String url = awsS3Service.getFileUrl(fileName);
+                    urls.add(url);
+                } catch (IOException e) {
+                    throw new IllegalArgumentException(e);
+                }
+            }
+            dto.setFileUrl(urls);
+        }
+        return dto;
     }
 
     @Override
@@ -216,7 +294,7 @@ public class CrewServiceImpl implements CrewService {
         List<CrewEntity> mycrewList = member.getCrewEntityList();
 
         return mycrewList.stream()
-                    .map(CrewDto::toCrewDto)
+                    .map(crew -> CrewDto.toCrewDto(crew))
                     .toList();
     }
 }

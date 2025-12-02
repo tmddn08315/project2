@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import org.hibernate.annotations.SQLRestriction;
 import org.spring.backendspring.board.entity.BoardEntity;
 import org.spring.backendspring.board.entity.BoardReplyEntity;
 import org.spring.backendspring.common.BasicTime;
@@ -15,14 +16,6 @@ import org.spring.backendspring.common.Gender;
 import org.spring.backendspring.common.role.MemberRole;
 import org.spring.backendspring.crew.crew.entity.CrewEntity;
 import org.spring.backendspring.crew.crewMember.entity.CrewMemberEntity;
-import org.spring.backendspring.member.dto.MemberDto;
-// import org.spring.backendspring.crew.crewJoin.entity.CrewJoinRequestEntity;
-// import org.spring.backendspring.crew.crewMember.entity.CrewMemberEntity;
-// import org.spring.backendspring.crew.crewCreate.entity.CrewCreateRequestEntity;
-// import org.spring.backendspring.crew.crew.entity.CrewEntity;
-// import org.spring.backendspring.crew.crewRun.entity.CrewRunEntity;
-// import org.spring.backendspring.crew.crewRun.entity.CrewRunMemberEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -40,7 +33,7 @@ public class MemberEntity extends BasicTime {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "user_email", nullable = false, unique = true)
+    @Column(name = "user_email", unique = true)
     private String userEmail; // 로그인 이메일
 
     @Column(name = "user_password", nullable = false)
@@ -73,6 +66,8 @@ public class MemberEntity extends BasicTime {
     private int isProfileImg; // 0/1
 
     private int socialLogin; // 0/1
+
+    private boolean isDeleted; // 탈퇴한 회원 -> 1
 
     // Member ↔ Cart (1:1)
 //    @OneToOne(mappedBy = "memberEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

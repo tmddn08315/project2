@@ -1,10 +1,13 @@
 package org.spring.backendspring.crew.crewMember.dto;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.*;
 import org.spring.backendspring.common.BasicTime;
 import org.spring.backendspring.common.role.CrewRole;
+import org.spring.backendspring.config.s3.AwsS3Service;
 import org.spring.backendspring.crew.crew.entity.CrewImageEntity;
 import org.spring.backendspring.crew.crewMember.entity.CrewMemberEntity;
 import org.spring.backendspring.member.entity.MemberEntity;
@@ -36,7 +39,7 @@ public class CrewMemberDto extends BasicTime {
     private LocalDateTime updateTime;
     // mycrew 목록 위한 이미지
     private List<String> crewImages;
-
+    private List<String> fileUrl;
     private List<String> memberImages;
     private String memberNickName;
 
@@ -66,6 +69,30 @@ public class CrewMemberDto extends BasicTime {
                 .memberImages(memberImages)
                 .memberNickName(crewMemberEntity.getMemberEntity().getNickName())
                 .crewMembers(members)
+                .build();
+    }
+    public static CrewMemberDto toCrewChatMember(CrewMemberEntity crewMemberEntity, AwsS3Service awsS3Service) {
+        CrewMemberDto dto = toCrewMember(crewMemberEntity);
+        List<String> memberImages = crewMemberEntity.getMemberEntity().getProfileImagesList()
+            .stream().map(MemberProfileImageEntity::getNewName)
+            .toList();
+        List<String> urls = new ArrayList<>();
+        if (dto.memberImages != null && !memberImages.isEmpty()) {
+            urls = dto.memberImages.stream()
+                    .map(name ->{
+                        try {
+                            return awsS3Service.getFileUrl(name);
+                        } catch (IOException e) {
+                            throw new IllegalArgumentException(e);
+                        }
+                    })
+                    .toList();
+        }   
+        return CrewMemberDto.builder()
+                .memberId(crewMemberEntity.getMemberEntity().getId())
+                .fileUrl(urls)
+                .memberImages(memberImages)
+                .memberNickName(crewMemberEntity.getMemberEntity().getNickName())
                 .build();
     }
 }

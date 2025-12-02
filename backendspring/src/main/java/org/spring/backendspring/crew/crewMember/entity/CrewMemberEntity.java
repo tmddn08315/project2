@@ -3,6 +3,7 @@ package org.spring.backendspring.crew.crewMember.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 import org.spring.backendspring.common.BasicTime;
 import org.spring.backendspring.common.role.CrewRole;
 import org.spring.backendspring.crew.crew.entity.CrewEntity;
@@ -16,6 +17,7 @@ import org.spring.backendspring.member.entity.MemberEntity;
 @Builder
 @Entity
 @Table(name = "crew_member_tb")
+@SQLRestriction("member_id IN (SELECT m.member_id FROM member_tb m WHERE m.is_deleted = FALSE)")
 public class CrewMemberEntity extends BasicTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -74,16 +74,16 @@
 
 /* UI Button */
 .slider__count {
-    /* 슬라이더 이미지 컨테이너 (.slider__img) 내에서 절대 위치로 배치 */
+    
     position: absolute; 
-    bottom: 10px;        /* 하단에서 10px 위에 */
-    right: 46.2%;         /* 우측에서 10px 안쪽에 */
-    z-index: 15;         /* 버튼(z-index: 10)보다 위에 오도록 */
+    bottom: 10px;        
+    right: 46.2%;         
+    z-index: 15;         
     
     padding: 5px 10px;
     border-radius: 15px;
 
-    /* 가독성을 위한 배경/글씨색 */
+    
     background-color: rgba(0, 0, 0, 0.4); 
     color: #fff;
     font-size: 14px;
@@ -91,7 +91,7 @@
 }
 
 .slider__count .current {
-    color: #ffd700; /* 현재 번호 강조 */
+    color: #ffd700; 
 }
 
 .slider__count .separator {

@@ -54,6 +54,7 @@ const CrewCreateRequestContainer = () => {
     el.preventDefault();
       
     if (!isLogin) return;
+    if (!window.confirm('크루 신청하시겠습니까?')) return;
 
     try {
       const response = await jwtAxios.post("/api/crew/create/request", 
@@ -71,7 +72,9 @@ const CrewCreateRequestContainer = () => {
         }        
       );
       setResponseMsg(response.data.message)
+      alert("크루 신청이 완료 되었습니다.")
     } catch (err) {
+        alert("크루 신청 실패")
         console.error(err);
         setResponseMsg("오류 발생")
     } 

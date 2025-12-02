@@ -10,7 +10,6 @@ const MyCrewLeftContainer = () => {
    const [crewLeader , setCrewLeader ] = useState({})
    useEffect(()=> {
     const myCrewLeft = async () => {
-      console.log("✅ useEffect 실행됨", { crewId, loginMemberId})
       try {
         const res = await jwtAxios.get(`/api/mycrew/${crewId}`,
           {
@@ -24,7 +23,7 @@ const MyCrewLeftContainer = () => {
 
       } catch (error) {
         if (error.response) {
-          console.log("백엔드 응답:", error.response.data)
+          // console.log("백엔드 응답:", error.response.data)
           
           const data = error.response.data
       

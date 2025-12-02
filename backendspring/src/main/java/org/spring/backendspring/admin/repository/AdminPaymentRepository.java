@@ -1,5 +1,6 @@
 package org.spring.backendspring.admin.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,19 @@ public interface AdminPaymentRepository extends JpaRepository<PaymentEntity, Lon
     @Query("SELECT COUNT(p) FROM PaymentEntity p WHERE DATE(p.createTime) = CURRENT_DATE")
     long countToday();
 
+    @Query("SELECT COALESCE(SUM(p.productPrice), 0) FROM PaymentEntity p")
+    Long totalSales();
+
+    @Query("SELECT COALESCE(SUM(p.productPrice), 0) FROM PaymentEntity p WHERE DATE(p.createTime) = CURRENT_DATE")
+    Long todaySales();
     // paymentId로 결제 상품들 조회
     // List<PaymentItemEntity> findPaymentItemsByPaymentId(Long paymentId);
+
+    @Query("""
+        SELECT COALESCE(SUM(COALESCE(p.productPrice, 0)), 0)
+        FROM PaymentEntity p
+        WHERE p.createTime >= :start AND p.createTime < :end
+    """)
+    Long sumSalesByDate(LocalDateTime start, LocalDateTime end);
+    
 }

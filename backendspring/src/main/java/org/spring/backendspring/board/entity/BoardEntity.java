@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.SQLRestriction;
 import org.spring.backendspring.board.dto.BoardDto;
 import org.spring.backendspring.board.dto.NoticeBoardDto;
 import org.spring.backendspring.common.BasicTime;
@@ -35,6 +36,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "board_tb" )
+@SQLRestriction("member_id IN (SELECT m.member_id FROM member_tb m WHERE m.is_deleted = FALSE)")
 public class BoardEntity extends BasicTime {
 
     @Id

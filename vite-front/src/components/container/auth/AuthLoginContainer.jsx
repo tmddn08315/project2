@@ -12,6 +12,7 @@ import "../../../css/auth/auth_login.css";
 const AuthLoginContainer = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const mountRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -42,6 +43,8 @@ const AuthLoginContainer = () => {
       dispatch(setAccessToken(access));
 
       navigate("/store/index");
+    } else if (rs.status === 400 || rs.status === 401) {
+      setError(rs.error);
     }
   };
 
@@ -88,7 +91,15 @@ const AuthLoginContainer = () => {
               onChange={onUsernameChange}
             />
           </li>
-          <li>
+          <li
+            style={
+              error != ""
+                ? {
+                    paddingBottom: "7px",
+                  }
+                : { paddingBottom: "20px" }
+            }
+          >
             <input
               type="password"
               name="password"
@@ -97,6 +108,18 @@ const AuthLoginContainer = () => {
               onChange={onPasswordChange}
             />
           </li>
+          {error != "" ? (
+            <p
+              style={{
+                color: "#a94442",
+                fontSize: "0.85em",
+                textAlign: "center",
+                paddingBottom: "7px",
+              }}
+            >
+              {error}
+            </p>
+          ) : null}
           <li>
             <button onClick={onLoginFn}>로그인</button>
           </li>

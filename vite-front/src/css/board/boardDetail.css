@@ -106,10 +106,10 @@
 .boardDetail-reply textarea {
   min-height: 82px;
   max-height: 220px;
-  padding: 12px 14px;
+  padding: 14px 14px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(89, 0, 130, 0.234);
+  background: #ffffff;
   color: rgba(156, 2, 2, 0.95);
   font-size: 14px;
   outline: none;
@@ -175,6 +175,7 @@ button:active {
   font-weight: bolder;
   font-style: normal;
   padding-bottom: 4%;
+  border-bottom: 2px solid #2313a1;
 }
 
 /* 개별 댓글 카드 */
@@ -217,13 +218,29 @@ button:active {
 }
 
 /* 수정/삭제 버튼 */
-.reply-actions button {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.reply-edit-buttons button{
+  background: silver;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #3200bd;
+}
+.reply-edit-buttons button:hover{
+    background-color: rgb(180, 0, 180);
+    transform: scale(1.1);
+}
+
+
+.reply-actions  button {
+  background: silver;
   padding: 6px 10px;
   border-radius: 8px;
   font-size: 13px;
   color: rgb(255, 18, 18);
+}
+.reply-actions button:hover{
+  background-color: purple;
+  transform: scale(1.1);
 }
 
 /* 페이지네이션 */
@@ -245,12 +262,27 @@ button:active {
   justify-content: flex-end;
   gap: 10px;
   margin-top: 22px;
+  
 }
 
 .boardDetail-act button {
-  background: rgba(255, 255, 255, 0.05);
+  background: #7ad3ffcf;
   border: 1px solid rgba(255, 255, 255, 0.07);
   color: rgb(255, 0, 0);
+
+  padding: 10px;
+  border-radius: 10px;
+
+
+  
+  font-family: "Gowun Batang", serif;
+  font-weight: bolder;
+  font-style: normal;
+  padding-bottom: 4%;
+}
+.boardDetail-act button:hover{
+  background-color: #000079;
+  transform: scale(1.1);
 }
 
 /* 반응형 */

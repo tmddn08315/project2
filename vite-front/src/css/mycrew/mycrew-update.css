@@ -27,7 +27,7 @@
 .crewDetailHome .crewDetailHome-con>form .crewUpdateImage>span {
     display: block;
     font-weight: 600;
-    margin-bottom: 10px;
+    padding: 10px 0;
     font-size: 16px;
     color: #333;
   }
@@ -36,7 +36,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
-    margin-bottom: 15px;
     list-style: none;
     padding: 0;
   }
@@ -70,6 +69,10 @@
     cursor: pointer;
     font-weight: bold;
     line-height: 18px;
+  }
+  
+  .crewDetailHome-con>form .crewUpdateImage>ul>li>button:hover {
+    background-color: #a09f9f; /* 살짝 어두워지는 효과 */
   }
   
 .crewDetailHome .crewDetailHome-con>form .crewUpdateImage>input[type="file"] {

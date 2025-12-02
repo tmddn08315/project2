@@ -32,6 +32,7 @@ public class PaymentEntity extends BasicTime {
     private String paymentPhone;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 20)
     @Builder.Default
     private PaymentStatus paymentStatus = PaymentStatus.PENDING;
 

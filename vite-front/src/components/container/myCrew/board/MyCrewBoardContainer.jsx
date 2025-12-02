@@ -99,10 +99,10 @@ const MyCrewBoardContainer = () => {
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
               />
-              <button className='crewBoardSearch' type='submit'>검색</button>
+              <button className='crewBoardSearch' type='submit'>🔍검색</button>
             </form>
 
-            <button className='createCrewBoard' onClick={create}>게시글 작성</button>
+            <button className='createCrewBoard' onClick={create}>✏️ 게시글 작성</button>
 
             {crewBoardList.length === 0 ? (
               <p>등록된 게시글이 없습니다.</p>

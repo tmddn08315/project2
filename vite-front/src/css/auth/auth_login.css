@@ -16,8 +16,6 @@
   background-size: cover;
 }
 
-
-
 .login {
   width: 100%;
   min-height: calc(100vh - 20px);
@@ -25,13 +23,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
-  /* background-color: #f2f2f2;
-  font-family: 'Arial', sans-serif; */
 }
 
 .login-con {
-  width: 400px;
+  width: 450px;
   padding: 40px 30px 20px 30px;
   background-color: #fff;
   border-radius: 10px;
@@ -55,6 +50,10 @@
   padding-bottom: 20px;
 }
 
+.login-con li:nth-child(2) {
+  padding-bottom: 0px;
+}
+
 .login-con input[type="text"],
 .login-con input[type="password"] {
   width: 100%;
@@ -68,14 +67,14 @@
 
 .login-con input[type="text"]:focus,
 .login-con input[type="password"]:focus {
-  border-color: #007BFF;
+  border-color: #007bff;
   outline: none;
 }
 
 .login-con button {
   width: 100%;
   padding: 12px;
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   font-size: 16px;
   border: none;
@@ -94,7 +93,7 @@
   gap: 3px;
 }
 
-.login-bottom>li {
+.login-bottom > li {
   padding-bottom: 15px;
 }
 
@@ -107,7 +106,7 @@
 .login-con {
   z-index: 10;
 
-  background-color: rgba(115, 190, 255, 0.5);
+  background-color: rgba(186, 223, 255, 0.767);
   padding: 5vw;
   border-radius: 15px;
 }
@@ -118,7 +117,7 @@
 
 .login-con li a {
   margin: 0 10px;
-  color: #007BFF;
+  color: #007bff;
   text-decoration: none;
   font-size: 14px;
 }

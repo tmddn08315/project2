@@ -24,6 +24,7 @@
     height: 100%;
     font-size: 13px;
     /* overflow: hidden; */
+    z-index: 999;
 }
 
 .nav h1 {
@@ -46,9 +47,14 @@
     gap: 20px;
 }
 
+.gnb ul>*:hover{
+    transition: all 0.3s ease;
+    transform: scale(1.2);
+  
+}
+
 .gnb ul>li a:hover {
     color: #0080bb;
-    background-color: aquamarine;
 }
 
 

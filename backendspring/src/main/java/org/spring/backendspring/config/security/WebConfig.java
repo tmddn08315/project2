@@ -15,6 +15,5 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:///E:/full/upload/",
                         "file:///C:/full/upload/",
                         "file:///D:/full/upload/");
-
     }
 }

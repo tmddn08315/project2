@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class MemberMapper {
+
     // 일반 회원가입
     public static MemberEntity toEntity(MemberDto dto,
                                         PasswordEncoder passwordEncoder) {
@@ -51,17 +52,17 @@ public class MemberMapper {
 
         List<MemberProfileImageEntity> profileImagesList = entity.getProfileImagesList();
         if (profileImagesList != null && !profileImagesList.isEmpty()) {
-            MemberProfileImageEntity profileImage = profileImagesList.get(0); 
-        
-        memberDtoBuilder
-                .isProfileImg(1)
-                .newFileName(profileImage.getNewName())
-                .profileImagesList(profileImagesList);
-        } else{
+            MemberProfileImageEntity profileImage = profileImagesList.get(0);
+
             memberDtoBuilder
-                .isProfileImg(0);
+                    .isProfileImg(1)
+                    .newFileName(profileImage.getNewName())
+                    .profileImagesList(profileImagesList);
+        } else {
+            memberDtoBuilder
+                    .isProfileImg(0);
         }
-        
+
         if (profileImagesList != null && !profileImagesList.isEmpty()) {
             memberDtoBuilder.isProfileImg(1)
                     .profileImagesList(profileImagesList);
@@ -72,7 +73,7 @@ public class MemberMapper {
 
     // 회원 update
     public static MemberEntity toUpdateEntity(MemberDto memberDto,
-                                            MemberEntity memberEntity) {
+                                              MemberEntity memberEntity) {
         return MemberEntity.builder()
                 .id(memberEntity.getId())
                 .userEmail(memberEntity.getUserEmail())
@@ -85,7 +86,7 @@ public class MemberMapper {
                 .phone(memberDto.getPhone())
                 .socialLogin(memberEntity.getSocialLogin())
                 .role(memberEntity.getRole())
-                .isProfileImg(memberDto.getIsProfileImg())
+                .isProfileImg(memberEntity.getIsProfileImg())
                 .build();
     }
 
@@ -121,6 +122,16 @@ public class MemberMapper {
         return memberEntity;
     }
 
+    // 회원 탈퇴 처리
+    public static MemberEntity toDeleteSet(MemberEntity memberEntity) {
+        memberEntity.setDeleted(true);
+        memberEntity.setUserName("탈퇴회원");
+        memberEntity.setNickName("탈퇴회원");
+        memberEntity.setAddress("탈퇴회원");
+        memberEntity.setPhone("010-0000-0000");
+        memberEntity.setAge(1);
+        return memberEntity;
+    }
 
     // 소셜 로그인 처리
     public static MemberEntity toSocialEntity(String userEmail,

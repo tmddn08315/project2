@@ -13,20 +13,15 @@ public interface CrewMemberRepository extends JpaRepository<CrewMemberEntity, Lo
 
     Optional<CrewMemberEntity> findByCrewEntityIdAndMemberEntityId(Long crewId, Long memberId);
 
-
     List<CrewMemberEntity> findByMemberEntity_id(Long memberId);
-
 
     Page<CrewMemberEntity> findAllByCrewEntityId(Long crewId, Pageable pageable);
 
-
-
-
     Page<CrewMemberEntity> findAllByCrewEntityIdAndMemberEntityId(Long crewId, Pageable pageable, Long searchId);
-
 
     Page<CrewMemberEntity> findAllByCrewEntityIdAndId(Long crewId, Pageable pageable, Long searchId);
 
-
     Page<CrewMemberEntity> findAllByCrewEntityIdAndRoleInCrew(Long crewId, Pageable pageable, CrewRole crewRole);
+
+    List<CrewMemberEntity> findAllByCrewEntityId(Long crewId);
 }

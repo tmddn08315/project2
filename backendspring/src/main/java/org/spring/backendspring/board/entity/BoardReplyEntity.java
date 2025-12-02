@@ -2,6 +2,7 @@ package org.spring.backendspring.board.entity;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.SQLRestriction;
 import org.spring.backendspring.board.dto.BoardReplyDto;
 import org.spring.backendspring.common.BasicTime;
 import org.spring.backendspring.member.entity.MemberEntity;
@@ -30,6 +31,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "board_comment_tb" )
+@SQLRestriction("member_id IN (SELECT m.member_id FROM member_tb m WHERE m.is_deleted = FALSE)")
 public class BoardReplyEntity extends BasicTime {
     
     @Id

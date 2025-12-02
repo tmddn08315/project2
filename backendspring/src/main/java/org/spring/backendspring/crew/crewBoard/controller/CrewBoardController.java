@@ -56,16 +56,16 @@ public class CrewBoardController {
                 @PathVariable("crewId") Long crewId,
                 @RequestPart("title") String title,
                 @RequestPart("content") String content,
-                @RequestPart(value = "crewBoardFile", required = false) List<MultipartFile> crewBoardFile,
+                @RequestParam(value = "crewBoardFile", required = false) List<MultipartFile> newImages,
                 @AuthenticationPrincipal MyUserDetails userDetails
     ) throws IOException {
         CrewBoardDto crewBoardDto = new CrewBoardDto();
         crewBoardDto.setTitle(title);
         crewBoardDto.setContent(content);
-        crewBoardDto.setCrewBoardFile(crewBoardFile);
+        crewBoardDto.setCrewBoardFile(newImages);
 
         Long loginUserId = userDetails.getMemberId();
-        CrewBoardDto createBoard = crewBoardService.createBoard(crewId, crewBoardDto, loginUserId, crewBoardFile);
+        CrewBoardDto createBoard = crewBoardService.createBoard(crewId, crewBoardDto, loginUserId, newImages);
 
         return ResponseEntity.ok(createBoard);
     }

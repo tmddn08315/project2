@@ -1,9 +1,12 @@
 package org.spring.backendspring.crew.crewBoard.dto;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.spring.backendspring.common.role.CrewRole;
+import org.spring.backendspring.config.s3.AwsS3Service;
 import org.spring.backendspring.crew.crew.entity.CrewEntity;
 import org.spring.backendspring.crew.crewBoard.entity.CrewBoardCommentEntity;
 import org.spring.backendspring.crew.crewBoard.entity.CrewBoardEntity;
@@ -49,6 +52,7 @@ public class CrewBoardDto {
     private Long memberId;
     private String memberNickName;
     private CrewRole role;
+    private List<String> fileUrl;
 
     private int comments;
 
@@ -104,6 +108,41 @@ public class CrewBoardDto {
                 // .crewBoardImageEntities(entity.getCrewBoardImageEntities())
                 .originalFileName(originalFileName)
                 .newFileName(newFileName)
+                .createTime(entity.getCreateTime())
+                .updateTime(entity.getUpdateTime())
+                .build();
+    }
+    public static CrewBoardDto toDtoS3(CrewBoardEntity entity, AwsS3Service awsS3Service) {
+        CrewBoardDto dto = toDto2(entity);
+        List<String> newFileName = entity.getCrewBoardImageEntities().stream()
+                .map(CrewBoardImageEntity::getNewName)
+                .toList();
+        List<String> originalFileName = entity.getCrewBoardImageEntities().stream()
+                .map(CrewBoardImageEntity::getOldName)
+                .toList();
+        List<String> urls = new ArrayList<>();
+        if (dto.getNewFileName() != null && !newFileName.isEmpty()) {
+            urls = dto.getNewFileName().stream()
+                    .map(name -> {
+                        try {
+                            return awsS3Service.getFileUrl(name);
+                        } catch (IOException e) {
+                            throw new IllegalArgumentException(e);
+                        }
+                    })
+                    .toList();
+        }
+        return CrewBoardDto.builder()
+                .id(entity.getId())
+                .title(entity.getTitle())
+                .content(entity.getContent())
+                .crewId(entity.getCrewEntity().getId())
+                .crewName(entity.getCrewEntity().getName())
+                .memberId(entity.getMemberEntity().getId())
+                .memberNickName(entity.getMemberEntity().getNickName())
+                .originalFileName(originalFileName)
+                .newFileName(newFileName)
+                .fileUrl(urls)
                 .createTime(entity.getCreateTime())
                 .updateTime(entity.getUpdateTime())
                 .build();

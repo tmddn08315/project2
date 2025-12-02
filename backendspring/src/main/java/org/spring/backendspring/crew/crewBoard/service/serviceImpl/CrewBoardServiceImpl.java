@@ -21,6 +21,7 @@ import org.spring.backendspring.crew.crewBoard.service.CrewBoardService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,7 +44,7 @@ public class CrewBoardServiceImpl implements CrewBoardService {
 
     @Override
     public PagedResponse<CrewBoardDto> boardListByCrew(Long crewId, String subject, String keyword, int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createTime").descending());
 
         Page<CrewBoardEntity> crewBoardPage;
 
@@ -69,7 +70,7 @@ public class CrewBoardServiceImpl implements CrewBoardService {
     }
 
     @Override
-    public CrewBoardDto createBoard(Long crewId, CrewBoardDto crewBoardDto, Long loginUserId, List<MultipartFile> crewBoardFile) throws IOException {
+    public CrewBoardDto createBoard(Long crewId, CrewBoardDto crewBoardDto, Long loginUserId, List<MultipartFile> newImages) throws IOException {
         CrewEntity crewEntity = crewRepository.findById(crewId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 크루"));
 
@@ -83,18 +84,16 @@ public class CrewBoardServiceImpl implements CrewBoardService {
         crewBoardDto.setCrewId(crewId);
 
         
-        CrewBoardEntity crewBoardEntity = CrewBoardEntity.toCrewBoardEntity(crewBoardDto);
+        CrewBoardEntity crewBoardEntity = CrewBoardEntity.toCrewBoardEntity2(crewBoardDto);
         crewBoardEntity.setTitle(crewBoardDto.getTitle());
         crewBoardEntity.setContent(crewBoardDto.getContent());
         
         CrewBoardEntity savedBoard = null;
 
-        crewBoardFile = crewBoardDto.getCrewBoardFile();
-        
         List<CrewBoardImageEntity> savedImages = new ArrayList<>();
 
-        if  (crewBoardFile == null || crewBoardFile.isEmpty() || crewBoardFile.get(0).isEmpty()) {
-            for (MultipartFile file : crewBoardDto.getCrewBoardFile()) {
+        if  (newImages != null && !newImages.isEmpty() && !newImages.get(0).isEmpty()) {
+            for (MultipartFile file : newImages) {
                 if (file != null && !file.isEmpty()) {
                     String originalFileName = file.getOriginalFilename();
             
@@ -127,7 +126,7 @@ public class CrewBoardServiceImpl implements CrewBoardService {
         crewBoardEntity.setCrewBoardImageEntities(savedImages);
         savedBoard = crewBoardRepository.save(crewBoardEntity);            
 
-        return CrewBoardDto.toDto2(savedBoard);
+        return CrewBoardDto.toDtoS3(savedBoard, awsS3Service);
     }
 
     @Override
@@ -136,7 +135,7 @@ public class CrewBoardServiceImpl implements CrewBoardService {
         CrewBoardEntity crewBoardEntity = crewBoardRepository.findByCrewEntity_IdAndId(crewId, id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글"));
 
-        return CrewBoardDto.toDto(crewBoardEntity);
+        return CrewBoardDto.toDtoS3(crewBoardEntity, awsS3Service);
     }
 
     @Override
@@ -210,7 +209,7 @@ public class CrewBoardServiceImpl implements CrewBoardService {
         crewBoardEntity.setCrewBoardImageEntities(updatedImages);
         CrewBoardEntity updatedBoardEntity = crewBoardRepository.save(crewBoardEntity);
 
-        return CrewBoardDto.toDto(updatedBoardEntity);
+        return CrewBoardDto.toDtoS3(updatedBoardEntity, awsS3Service);
     }
 
     @Override

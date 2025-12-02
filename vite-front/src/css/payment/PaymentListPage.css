@@ -105,23 +105,34 @@
   transition: background-color 0.2s;
 }
 
-.status-주문완료 {
-  color: #9c27b0;
-  background-color: #f3e5f5;
-}
-.status-출고준비 {
+.status-결제대기 {
   color: #ff9800;
   background-color: #fff3e0;
 }
-.status-운송중 {
+
+.status-배송중 {
   color: #2196f3;
   background-color: #e3f2fd;
 }
+.status-결제실패 {
+  color: #ff4800;
+  background-color: #ffe5e0;
+}
+
+.status-결제취소 {
+  color: #9c27b0;
+  background-color: #f3e5f5;
+}
+
 .status-배송완료 {
   color: #4caf50;
   background-color: #e8f5e9;
 }
 
+.status-환불완료 {
+  color: #4c53af;
+  background-color: #e8e9f5;
+}
 .orderCard .mainInfo {
   margin-bottom: 15px;
 }
@@ -171,6 +182,11 @@
   padding: 5px 0;
   border-bottom: 1px dotted #eee;
   font-size: 0.9rem;
+}
+
+.payment_itemList .item-price-size {
+  display: flex;
+  gap: 70px;
 }
 
 .payment_itemList li:last-child {

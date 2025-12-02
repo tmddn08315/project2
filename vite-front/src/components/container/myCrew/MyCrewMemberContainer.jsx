@@ -2,8 +2,11 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import MyCrewMemberDetailModal from './MyCrewMemberDetailModal'
+import jwtAxios from '../../../apis/util/jwtUtil'
+import { useSelector } from 'react-redux'
 
 const MyCrewMemberContainer = () => {
+  const accessToken = useSelector(state => state.jwtSlice.accessToken);
   const {crewId} = useParams()
   const [ myCrewMemberList, setMyCrewMemberList] = useState([])
   const [ detailOpen, setDetailOpen] = useState(false);
@@ -24,15 +27,19 @@ const MyCrewMemberContainer = () => {
   // 보이고 싶은 정보 상의 후 dto 추가
   const onMyCrewMemberList = async(pageParam) =>{
     try {
-      const res = await axios.get(`/api/mycrew/${crewId}/member`,
+      const res = await jwtAxios.get(`/api/mycrew/${crewId}/member`,
         {
           params: {
             page: pageParam, 
             subject: subject || undefined,
             search: search || undefined
           }
-        })
-      console.log(res.data.crewMember)
+        },{ headers: { 
+          "Authorization": `Bearer ${accessToken}`,
+          "Content-Type": "application/json" 
+        } 
+      })
+      // console.log(res.data.crewMember)
       setMyCrewMemberList(res.data.crewMember.content)
       setNowPage(res.data.nowPage)
       setStartPage(res.data.startPage)
@@ -41,7 +48,7 @@ const MyCrewMemberContainer = () => {
       
     } catch (error) {
       if (error.response) {
-        console.log("백엔드 응답:", error.response.data)
+        // console.log("백엔드 응답:", error.response.data)
         const data = error.response.data    
         const msg = data?.message || "알 수 없는 오류가 발생했습니다."
         alert(msg)
@@ -61,14 +68,20 @@ const MyCrewMemberContainer = () => {
   const onCrewMemberDetail = async (crewMember) => {
     try {
       const crewMemberId = crewMember.memberId
-      console.log(crewMemberId)
-      const res = await axios.get(`/api/mycrew/${crewId}/member/detail/${crewMemberId}`)
-      console.log(res.data.crewMember)
+      // console.log(crewMemberId)
+      const res = await jwtAxios.get(`/api/mycrew/${crewId}/member/detail/${crewMemberId}`,
+        { headers: { 
+          "Authorization": `Bearer ${accessToken}`,
+          "Content-Type": "application/json" 
+        } 
+      }
+      )
+      // console.log(res.data.crewMember)
       setDetailData(res.data.crewMember)
       setDetailOpen(true)
     } catch (error) {
       if (error.response) {
-        console.log("백엔드 응답:", error.response.data)
+        // console.log("백엔드 응답:", error.response.data)
         const data = error.response.data    
         const msg = data?.message || "알 수 없는 오류가 발생했습니다."
         alert(msg)
@@ -80,15 +93,21 @@ const MyCrewMemberContainer = () => {
   const onCrewMemberDelete = async (crewMember) => {
     try {
       const crewMemberTbId = crewMember.id
-      console.log(crewMemberTbId)
-      const res = await axios.get(`/api/mycrew/${crewId}/member/delete/${crewMemberTbId}`)
-      console.log(res.data)
+      // console.log(crewMemberTbId)
+      const res = await jwtAxios.get(`/api/mycrew/${crewId}/member/delete/${crewMemberTbId}`,
+        { headers: { 
+          "Authorization": `Bearer ${accessToken}`,
+          "Content-Type": "application/json" 
+        } 
+      }
+      )
+      // console.log(res.data)
       alert(res.data)
       
       alert("내크루원 삭제 성공")
     } catch (error) {
       if (error.response) {
-        console.log("백엔드 응답:", error.response.data)
+        // console.log("백엔드 응답:", error.response.data)
         const data = error.response.data    
         const msg = data?.message || "알 수 없는 오류가 발생했습니다."
         alert(msg)
@@ -243,7 +262,7 @@ const MyCrewMemberContainer = () => {
             setDetailData(null);
             onMyCrewMemberList();
           }}
-          onDelete={() => onCrewMemberDelete(crewMemberTbId)}
+          onDelete={() => onCrewMemberDelete(detailData)}
         />
       )}
     </div>

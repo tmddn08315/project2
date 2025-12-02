@@ -10,10 +10,12 @@ import org.spring.backendspring.config.security.filter.CustomLoginFilter;
 import org.spring.backendspring.config.security.filter.CustomLogoutFilter;
 import org.spring.backendspring.config.security.filter.JWTCheckFilter;
 import org.spring.backendspring.config.security.handler.CustomAccessDeniedHandler;
+import org.spring.backendspring.config.security.handler.CustomLoginFailureHandler;
 import org.spring.backendspring.config.security.handler.OAuth2SuccessHandler;
 import org.spring.backendspring.config.security.util.JWTUtil;
 import org.spring.backendspring.member.service.MemberService;
 import org.spring.backendspring.member.service.RefreshService;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties.Lettuce.Cluster.Refresh;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -92,6 +94,7 @@ public class SecurityConfigClass {
         CustomLoginFilter customLoginFilter =
                 new CustomLoginFilter(authenticationManager(configuration), jwtUtil, refreshService);
         customLoginFilter.setFilterProcessesUrl("/api/member/login");
+        customLoginFilter.setAuthenticationFailureHandler(customLoginFailureHandler());
 
         http.addFilterBefore(jwtCheckFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
         http.addFilterAt(customLoginFilter, UsernamePasswordAuthenticationFilter.class);
@@ -162,6 +165,11 @@ public class SecurityConfigClass {
     @Bean
     public MyDefaultOAuth2UserService myDefaultOAuth2UserService() {
         return new MyDefaultOAuth2UserService();
+    }
+
+    @Bean
+    public CustomLoginFailureHandler customLoginFailureHandler() {
+        return new CustomLoginFailureHandler();
     }
 
 }

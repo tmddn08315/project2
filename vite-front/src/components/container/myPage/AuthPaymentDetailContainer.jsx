@@ -5,6 +5,12 @@ import { useNavigate, useParams } from "react-router";
 import { formatDate, formattedPrice } from "../../../js/formatDate";
 
 const AuthPaymentDetailContainer = () => {
+  const paymentType = {
+    CARD: "카드결제",
+    CASH: "현금결제",
+    KAKAO: "카카오페이",
+  };
+
   const { paymentId } = useParams();
   console.log(paymentId);
   const [paymentDetail, setPaymentDetail] = useState({});
@@ -62,10 +68,6 @@ const AuthPaymentDetailContainer = () => {
                 <span className="info-label">연락처</span>
                 <span className="info-value">{paymentDetail.paymentPhone}</span>
               </div>
-              <div className="info-item">
-                <span className="info-label">우편번호</span>
-                <span className="info-value">{paymentDetail.paymentPost}</span>
-              </div>
             </div>
           </div>
 
@@ -122,7 +124,10 @@ const AuthPaymentDetailContainer = () => {
               </div>
               <div className="info-item">
                 <span className="info-label">결제방식</span>
-                <span className="info-value">{paymentDetail.paymentType}</span>
+                <span className="info-value">
+                  {paymentType[paymentDetail.paymentType] ||
+                    paymentDetail.paymentType}
+                </span>
               </div>
               <div className="info-item highlight">
                 <span className="info-label">결제금액</span>

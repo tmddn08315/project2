@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,8 +45,10 @@ public class MemberController {
         }
 
         int num = memberService.userEmailCheck(userEmail);
-        if (num != 1) {
+        if (num == 1) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 존재하는 이메일입니다.");
+        } else if (num == 2) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("탈퇴한 이메일은 재가입할 수 없습니다.");
         }
         return ResponseEntity.status(HttpStatus.OK).body("사용 가능한 이메일입니다.");
     }
@@ -83,13 +86,14 @@ public class MemberController {
         return ResponseEntity.ok(updated);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteMember(@PathVariable Long id,
-                                               @AuthenticationPrincipal MyUserDetails myUserDetails) {
-        if (!id.equals(myUserDetails.getMemberId())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("삭제 권한이 없습니다: 로그인 정보가 일치하지 않습니다.");
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteMember(@AuthenticationPrincipal MyUserDetails myUserDetails) {
+        boolean roleAdmin = myUserDetails.getAuthorities().stream()
+                .anyMatch(el -> el.getAuthority().equals("ROLE_ADMIN"));
+        if (roleAdmin) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ADMIN 권한은 탈퇴할 수 없습니다.");
         }
-        memberService.deleteMember(id);
-        return ResponseEntity.ok("회원 탈퇴 성공");
+        memberService.deleteMember(myUserDetails.getMemberId());
+        return ResponseEntity.ok("회원 탈퇴 확인");
     }
 }

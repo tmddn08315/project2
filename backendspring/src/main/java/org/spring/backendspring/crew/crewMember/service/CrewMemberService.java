@@ -13,4 +13,6 @@ public interface CrewMemberService {
     CrewMemberDto detailCrewMember(Long crewId, Long crewMemberId);
 
     Page<CrewMemberDto> findCrewMemberList(Long crewId, Pageable pageable, String subject, String search);
+
+    List<CrewMemberDto> myCrewList(Long memberId);
 }

@@ -5,8 +5,6 @@ import { useSelector } from "react-redux";
 import AdminPagingComponent from "../../../common/AdminPagingComponent";
 import { Link } from "react-router";
 
-// 1. member api 뽑아오기 (따로 그냥 컴포넌트 안에서 직접 뽑아오자)
-
 const AdminMemberListContainer = () => {
   const accessToken = useSelector((state) => state.jwtSlice.accessToken);
 

@@ -9,9 +9,9 @@ import {
 } from "../../../apis/cart/cartApi";
 import "../../../css/cart/CartPage.css";
 
-const BASE_IMAGE_URL = "https://spring-project-test.s3.ap-northeast-2.amazonaws.com/";
+const BASE_IMAGE_URL =
+  "https://spring-project-test.s3.ap-northeast-2.amazonaws.com/";
 const NO_IMAGE_URL = "/images/noimage.jpg";
-
 
 export default function CartPage() {
   const navigate = useNavigate();
@@ -90,7 +90,6 @@ export default function CartPage() {
       });
       setCheckedItems(newCheckedItems);
       setSelectedItemsData(newSelectedItemsData);
-
     } catch (e) {
       console.error("장바구니 아이템 조회 실패:", e);
     } finally {
@@ -115,11 +114,11 @@ export default function CartPage() {
     const addItem = async () => {
       try {
         // itemToAdd에 quantity가 없으면 기본값 1
-        const quantity = itemToAdd.quantity || 1; 
+        const quantity = itemToAdd.quantity || 1;
         await addItemToCart(cart.cartId, itemToAdd.id, quantity);
         fetchItems(); // 추가 후 목록 갱신
         // itemToAdd 정보를 제거하여, 페이지를 리로드해도 다시 추가되지 않도록 함
-        navigate("/cart", { replace: true }); 
+        navigate("/cart", { replace: true });
       } catch (e) {
         console.error("상품 추가 실패:", e);
       }
@@ -244,7 +243,7 @@ export default function CartPage() {
     } catch (e) {
       console.error("수량 업데이트 실패:", e);
       // 서버 업데이트 실패 시, UI 상태를 롤백하거나 (fetchItems) 사용자에게 알림
-      fetchItems(); 
+      fetchItems();
     }
   };
 
@@ -312,7 +311,6 @@ export default function CartPage() {
               </tr>
             </thead>
             <tbody>
-             
               {items.map((item) => {
                 // 이미지 경로 생성: 파일 이름과 기본 URL을 결합
                 const imageUrl = item.itemImage
@@ -321,7 +319,7 @@ export default function CartPage() {
 
                 return (
                   <tr key={item.cartItemId}>
-                     {console.log(item)}
+                    {console.log(item)}
                     <td>
                       <input
                         type="checkbox"

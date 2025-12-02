@@ -19,6 +19,8 @@ const BoardDetailContainer = () => {
     // boards 상태를 빈 객체로 초기화합니다.
     const [boards, setBoards] = useState({});
     const [content, setContent] = useState('');
+    const [isUpdating, setIsUpdating] = useState(false);
+
 
     // Editing
     const [editingReplyId, setEditingReplyId] = useState(null);
@@ -144,6 +146,8 @@ const BoardDetailContainer = () => {
         navigate(`/board/update/${boardId}`);
     }
     const handleReplyUpdate = async (replyId, currentContent) => {
+        setIsUpdating(true);
+        console.log(`수정 요청 시작: ID ${replyId}`);
         setEditingReplyId(replyId);
         setEditingContent(currentContent);
 
@@ -165,6 +169,7 @@ const BoardDetailContainer = () => {
 
             if (response.status === 200) {
                 alert('댓글이 성공적으로 수정되었습니다.');
+                
                 handleReplyEditCancel(); // 수정 모드 종료
                 // 현재 페이지의 댓글 목록을 갱신합니다.
                 fetchReplies(boards.id, pageInfo.page, pageInfo.size);
@@ -176,6 +181,8 @@ const BoardDetailContainer = () => {
             console.error('댓글 수정 중 오류 발생:', error);
             const errorMessage = error.response?.data || '댓글 수정 중 오류가 발생했습니다.';
             alert(errorMessage); // 백엔드에서 던진 권한 에러 메시지 등을 사용자에게 표시
+        } finally {
+            setIsUpdating(false);
         }
 
     }
@@ -349,26 +356,30 @@ const BoardDetailContainer = () => {
                                                 <div className="reply-edit-buttons">
                                                     <button
                                                         onClick={() => handleReplyEditSubmit(reply.id)}>
-                                                        수정
+                                                        덧글수정
                                                     </button>
                                                     <button
                                                         onClick={handleReplyEditCancel}>
-                                                        취소
+                                                        덧글수정취소
                                                     </button>
                                                 </div>
                                             </div>
                                         )}
                                         { /*conditional rendering below here */}
-                                        {reply.memberId === memberId && (
-                                            <div className="reply-actions">
-                                                {console.log(reply)}
-                                                <button onClick={() => handleReplyUpdate(reply.id, reply.content)}>
-                                                    수정 </button>
-                                                { /* reply.id -> send delete request. */}
-                                                <button onClick={() => handleReplyDelete(reply.id)}>
-                                                    삭제 </button>
-                                            </div>
+                                        {!isUpdating && (
+                                            <>
+                                            {reply.memberId === memberId && (
+                                                <div className="reply-actions">
+                                                    {console.log(reply)}
+                                                    <button onClick={() => handleReplyUpdate(reply.id, reply.content)}>
+                                                        수정 </button>
+                                                    { /* reply.id -> send delete request. */}
+                                                    <button onClick={() => handleReplyDelete(reply.id)}>
+                                                        삭제 </button>
+                                                </div>
 
+                                            )}
+                                         </>
                                         )}
                                     </div>
 

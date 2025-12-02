@@ -32,8 +32,6 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final MemberProfileImageRepository memberProfileImageRepository;
-    private final CrewJoinRequestRepository crewJoinRequestRepository;
-    private final CrewCreateRequestRepository crewCreateRequestRepository;
     private final AwsS3Service awsS3Service;
 
     @Value("${s3file.path.member}")
@@ -42,7 +40,15 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public int userEmailCheck(String userEmail) {
         Optional<MemberEntity> byUserEmail = memberRepository.findByUserEmail(userEmail);
-        return byUserEmail.isPresent() ? 0 : 1;
+        if (byUserEmail.isEmpty()) {
+            return 0;
+        }
+
+        if (byUserEmail.get().isDeleted()) {
+            return 2;
+        } else {
+            return 1;
+        }
     }
 
     @Override
@@ -140,22 +146,9 @@ public class MemberServiceImpl implements MemberService {
     public void deleteMember(Long id) {
         MemberEntity member = memberRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("해당 회원이 존재하지 않습니다"));
-
-        if (member.getIsProfileImg() == 1) {
-            String oldFile = member.getProfileImagesList().get(0).getNewName();
-            if (!oldFile.isEmpty()) {
-                awsS3Service.deleteFile(oldFile);
-            }
-            memberProfileImageRepository.deleteById(member.getProfileImagesList().get(0).getId());
+        if (member.isDeleted()) {
+            throw new IllegalArgumentException("이미 탈퇴한 회원입니다.");
         }
-        // 크루 join 신청 데이터 삭제
-        if (crewJoinRequestRepository.existsByMemberEntity_Id(member.getId())) {
-            crewJoinRequestRepository.deleteByMemberEntity_Id(member.getId());
-        }
-        // 크루 생성 신청 데이터 삭제
-        if (crewCreateRequestRepository.existsByMemberEntity_Id(member.getId())) {
-            crewCreateRequestRepository.deleteByMemberEntity_Id(member.getId());
-        }
-        memberRepository.delete(member);
+        MemberMapper.toDeleteSet(member);
     }
 }

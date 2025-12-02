@@ -69,7 +69,7 @@ const CrewList = ({children}) => {
                 <>
                 {crewList.slice(0, 4).map((list) => (
                     <li className="yes-crew" key={list.id}>
-                        <Link to={`/mycrew/${list.id}`}>{list.name}</Link>
+                        <Link to={`/mycrew/${list.crewId}`}>{list.crewName}</Link>
                             {console.log(crewList)}
                     </li>
                 ))}
@@ -83,7 +83,7 @@ const CrewList = ({children}) => {
                 crewList.map((list) => (
                     <li key={list.id}>
                         {/* <Link to={`/crew/detail/${list.id}`}>{list.name}</Link> */}
-                        <Link to={`/mycrew/${list.id}`}>{list.name}</Link>
+                        <Link to={`/mycrew/${list.crewId}`}>{list.crewName}</Link>
                     </li>
                 ))
             )}

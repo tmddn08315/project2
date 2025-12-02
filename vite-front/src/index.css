@@ -9,6 +9,7 @@
 @import url(css/myPage/auth_member_payment.css);
 @import url(css/myPage/auth-member-payment-detail.css);
 @import url(css/myPage/auth-member-update.css);
+@import url(css/myPage/auth-member-delete-modal.css);
 
 /* 장바구니 css */
 @import url(css/cart/CartPage.css);
@@ -36,6 +37,7 @@
 @import url(css/mycrew/mycrew-RunMember-modal.css);
 @import url(css/mycrew/mycrew-update.css);
 @import url(css/mycrew/mycrew-chatBot.css);
+@import url(css/mycrew/mycrew-chat.css);
 
 /* 관리자 */
 @import url(css/admin/container/admin-member-list.css);

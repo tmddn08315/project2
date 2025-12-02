@@ -22,6 +22,9 @@ public class SummaryDto {
     private Long totalPayments;
     private Long todayPayments;
 
+    private Long totalSales;
+    private Long todaySales;
+
     private Long totalBoards;
     private Long todayBoards;
 }

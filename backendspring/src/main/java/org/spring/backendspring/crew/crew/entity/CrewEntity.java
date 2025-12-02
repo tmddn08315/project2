@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.SQLRestriction;
 import org.spring.backendspring.common.BasicTime;
 import org.spring.backendspring.crew.crew.dto.CrewDto;
 import org.spring.backendspring.crew.crewBoard.entity.CrewBoardEntity;
@@ -21,6 +24,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "crew_tb")
+@SQLRestriction("member_id IN (SELECT m.member_id FROM member_tb m WHERE m.is_deleted = FALSE)")
 public class CrewEntity extends BasicTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

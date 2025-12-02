@@ -8,10 +8,11 @@ import DeliveryStatusModal from "../payment/DeliveryStatusModal";
 
 const AuthPaymentContainer = () => {
   const paymentStatus = {
-    PENDING: "배송중",
+    PENDING: "결제대기",
+    DELIVERING: "배송중",
     COMPLETED: "배송완료",
     FAILED: "결제실패",
-    CANCELED: "주문취소",
+    CANCELED: "결제취소",
     REFUNDED: "환불완료",
   };
 
@@ -182,13 +183,14 @@ const AuthPaymentContainer = () => {
                     <h4>주문 상세</h4>
                     <ul className="payment_itemList">
                       {items.map((item, index) => (
-                        // item.paymentItemId 대신 index 사용 (안정적인 key가 있다면 사용 권장)
                         <li key={item.id || index}>
                           <span>{item.title || "-"}</span>
-                          <span className="itemPrice">
-                            {(item.price || 0).toLocaleString()}원
-                          </span>
-                          <span className="itemSize">{item.size || 0}개</span>
+                          <div className="item-price-size">
+                            <span className="itemPrice">
+                              {(item.price || 0).toLocaleString()}원
+                            </span>
+                            <span className="itemSize">{item.size || 0}개</span>
+                          </div>
                         </li>
                       ))}
                     </ul>

@@ -1,5 +1,6 @@
 package org.spring.backendspring.payment.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,8 +43,10 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity, Long> {
     Page<PaymentEntity> findByMemberId(Pageable pageable, Long memberId);
 
     @Query(value = "SELECT p FROM PaymentEntity p JOIN FETCH p.paymentItemEntities item " +
-            "WHERE p.memberId = :memberId AND item.title LIKE %:keyword%",
-            countQuery = "SELECT COUNT(DISTINCT p) FROM PaymentEntity p JOIN p.paymentItemEntities item " +
+            "WHERE p.memberId = :memberId AND item.title LIKE %:keyword%", countQuery = "SELECT COUNT(DISTINCT p) FROM PaymentEntity p JOIN p.paymentItemEntities item "
+                    +
                     "WHERE p.memberId = :memberId AND item.title LIKE %:keyword%")
-    Page<PaymentEntity> findByMemberIdAndTitleContaining(Pageable pageable, @Param("keyword") String keyword, @Param("memberId") Long memberId); // ⭐️ 이 메서드도 @Param 추가 권장
+    Page<PaymentEntity> findByMemberIdAndTitleContaining(Pageable pageable, @Param("keyword") String keyword,
+            @Param("memberId") Long memberId); // ⭐️ 이 메서드도 @Param 추가 권장
+
 }

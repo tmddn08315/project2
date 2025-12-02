@@ -1,5 +1,6 @@
 package org.spring.backendspring.admin.controller;
 
+import org.spring.backendspring.admin.dto.WeeklySalesDto;
 import org.spring.backendspring.admin.repository.AdminPaymentRepository;
 import org.spring.backendspring.admin.service.AdminPaymentService;
 import org.spring.backendspring.common.dto.PagedResponse;
@@ -42,12 +43,6 @@ public class AdminPaymentController {
         return ResponseEntity.ok("결제상태가 변경되었습니다");
     }
 
-    @GetMapping("/{paymentId}")
-    public ResponseEntity<PaymentDto> getPaymentDetail(@PathVariable Long paymentId) {
-        return ResponseEntity.ok(
-                adminPaymentService.getPayment(paymentId));
-    }
-
     @GetMapping("/total")
     public long getTotalPayments() {
         return adminPaymentRepository.countAll();
@@ -57,4 +52,26 @@ public class AdminPaymentController {
     public long getTodayPayments() {
         return adminPaymentRepository.countToday();
     }
+
+    @GetMapping("/totalSales")
+    public long getTotalSales() {
+        return adminPaymentRepository.totalSales();
+    }
+
+    @GetMapping("/todaySales")
+    public long getTodaySales() {
+        return adminPaymentRepository.todaySales();
+    }
+
+    @GetMapping("/weeklySales")
+    public ResponseEntity<WeeklySalesDto> getWeeklySales() {
+        return ResponseEntity.ok(adminPaymentService.getWeeklySales());
+    }
+
+    @GetMapping("/{paymentId:\\d+}")
+    public ResponseEntity<?> getPaymentDetail(@PathVariable Long paymentId) {
+        return ResponseEntity.ok(
+                adminPaymentService.getPayment(paymentId));
+    }
+
 }

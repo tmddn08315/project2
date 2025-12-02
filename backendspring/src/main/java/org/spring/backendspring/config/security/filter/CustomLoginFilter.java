@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.spring.backendspring.common.role.MemberRole;
 import org.spring.backendspring.config.security.MyUserDetails;
+import org.spring.backendspring.config.security.exception.EmptyCredentialsException;
 import org.spring.backendspring.config.security.util.CookieUtil;
 import org.spring.backendspring.config.security.util.JWTUtil;
 import org.spring.backendspring.member.dto.AuthResponse;
@@ -38,10 +39,19 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
         String userEmail = obtainUsername(request);
         String userPw = obtainPassword(request);
 
+        if (userEmail.trim().isEmpty() || userPw.trim().isEmpty()) {
+            throw new EmptyCredentialsException("로그인 형식이 올바르지 않습니다.");
+        }
+
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken(userEmail, userPw);
 
-        return authenticationManager.authenticate(authToken);
+        try {
+            return authenticationManager.authenticate(authToken);
+        } catch (AuthenticationException e) {
+            System.out.println("authenticate()에서 예외 발생: " + e);
+            throw e;
+        }
     }
 
     // 성공시 accessToken, refreshToken 발급
@@ -108,6 +118,6 @@ public class CustomLoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                               AuthenticationException failed) throws IOException, ServletException {
-        response.setStatus(401);
+        super.unsuccessfulAuthentication(request, response, failed);
     }
 }

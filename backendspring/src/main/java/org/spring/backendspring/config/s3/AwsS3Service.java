@@ -67,7 +67,7 @@ public class AwsS3Service {
     String uuid = UUID.randomUUID().toString();
 
 
-    String filePrefix = dirName.isEmpty() ? "" : dirName + "/"; 
+    String filePrefix = dirName.isEmpty() ? "" : dirName;
     String uniqueFileName = filePrefix + uuid + "_" + originalFileName;
 
     // upload S3 
@@ -90,7 +90,4 @@ public class AwsS3Service {
     public String getFileUrl(String fileName) throws IOException {
         return s3Template.download(bucketName, fileName).getURL().toString();
     }
-
-   
-    
 }

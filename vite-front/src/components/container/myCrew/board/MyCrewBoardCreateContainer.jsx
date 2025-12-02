@@ -24,7 +24,6 @@ const MyCrewBoardCreateContainer = () => {
   }
 
   const create = async (el) => {
-    console.log('accessToken:', accessToken);
     el.preventDefault();
 
     try {
@@ -37,8 +36,8 @@ const MyCrewBoardCreateContainer = () => {
                 formData.append('crewBoardFile', files[i]);
             }
         } else if (!files || files.length == 0) {
-            formData.append("crewBoardFile", new Blob([]), "");
-        }
+                formData.append("crewBoardFile", new Blob([]), "");
+        } 
         const response = await jwtAxios.post(`/api/mycrew/${crewId}/board/create`, 
             formData,
             {
@@ -85,10 +84,10 @@ const MyCrewBoardCreateContainer = () => {
                     <span>파일</span>
                     <input type="file" name='crewBoardFile' onChange={fileChange} multiple/>
                     {files.length > 0 && (
-                        <ul>
+                        <ul className='exFile'>
                             {files.map((file, idx) => (
-                                <li key={idx}>
-                                    {file.name}
+                                <li className='exFileItem' key={idx}>
+                                    <img className='crewBoardFileImg' src={URL.createObjectURL(file)} alt={idx} />
                                     <button type='button' onClick={() => removeFile(idx)}>x</button>
                                 </li>
                             ))}

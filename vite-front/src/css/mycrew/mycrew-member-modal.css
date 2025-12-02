@@ -151,3 +151,128 @@
   border-color: #9ca3af;
   transform: translateY(-1px);
 }
+
+/* ============================
+   반응형 - 768px 이하 (태블릿)
+   ============================ */
+   @media (max-width: 768px) {
+    /* 모달 박스: 살짝만 작게 */
+    .myCrewMemberModal .myCrewMemberModal-con {
+      width: 420px;
+      max-width: 90vw;
+      max-height: 78vh;
+      padding: 16px 18px 18px;
+    }
+  
+    .myCrewMemberModal .myCrewMemberModal-header h2 {
+      font-size: 16px;
+    }
+  
+    .myCrewMemberModal .myCrewMemberModal-header > button {
+      width: 26px;
+      height: 26px;
+      font-size: 14px;
+    }
+  
+    /* 이미지 살짝 축소 */
+    .myCrewMemberModal .myCrewMemberModal-con .myCrewMemberImage {
+      flex: 0 0 130px;
+    }
+  
+    .myCrewMemberModal .memberImage {
+      width: 130px;
+      height: 130px;
+    }
+  
+    .myCrewMemberModal .myCrewMemberModal-body li {
+      font-size: 12px;
+    }
+  
+    .myCrewMemberModal .myCrewMemberModal-body button {
+      font-size: 12px;
+      padding: 5px 10px;
+    }
+  }
+  
+  /* ============================
+     반응형 - 450px 이하 (모바일)
+     ============================ */
+  @media (max-width: 450px) {
+    /* 오버레이는 그대로 중앙 정렬 유지 (X 누르는 데 문제 없게) */
+    .myCrewMemberModal {
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 2.5rem;         
+      padding-left: 1.5rem;       
+    }
+  
+    /* 모달 박스: 화면에 맞춰 조금 더 작게만 */
+    .myCrewMemberModal .myCrewMemberModal-con {
+      width: 70%;
+      max-height: 80vh;
+      padding: 14px 14px 16px;
+      border-radius: 10px;
+    }
+  
+    .myCrewMemberModal .myCrewMemberModal-con::before {
+      margin-bottom: 8px;
+      width: 48px;
+    }
+  
+    /* 헤더: 항상 위에 보이게 (X 잘 눌리게) */
+    .myCrewMemberModal .myCrewMemberModal-header {
+      margin-bottom: 8px;
+      flex-shrink: 0;
+    }
+  
+    .myCrewMemberModal .myCrewMemberModal-header h2 {
+      font-size: 15px;
+    }
+  
+    .myCrewMemberModal .myCrewMemberModal-header > button {
+      width: 28px;
+      height: 28px;
+      font-size: 16px;
+    }
+  
+    /* 중간 영역: 세로로 쌓기 */
+    .myCrewMemberModal .myCrewMemberModal-con .myCrewMemberModal-mid {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+  
+    .myCrewMemberModal .myCrewMemberModal-con .myCrewMemberImage {
+      flex: 0 0 auto;
+    }
+  
+    .myCrewMemberModal .memberImage {
+      width: 110px;
+      height: 110px;
+    }
+  
+    /* 내용 영역: 스크롤만 담당 */
+    .myCrewMemberModal .myCrewMemberModal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+  
+    .myCrewMemberModal .myCrewMemberModal-body li {
+      font-size: 12px;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+  
+    /* 버튼 줄 */
+    .myCrewMemberModal .myCrewMemberModal-body li.buttons-row {
+      justify-content: flex-end;
+      gap: 6px;
+    }
+  
+    .myCrewMemberModal .myCrewMemberModal-body button {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+  }
+  

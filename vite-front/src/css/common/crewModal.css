@@ -4,8 +4,12 @@
     display: inline-block;
     cursor: pointer;
 }
+.modal-container ul>li:hover{
+    transition: all 0.3s ease;
+    transform: scale(1.2);
+}
 .modal-container a:hover{
-    background-color: aquamarine;
+    
     color: #0080bb;
 }
 

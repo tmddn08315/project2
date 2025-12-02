@@ -30,6 +30,8 @@ public class AdminSummaryServiceImpl implements AdminSummaryService {
 
         Long totalPayments = adminPaymentRepository.countAll();
         Long todayPayments = adminPaymentRepository.countToday();
+        Long totalSales = adminPaymentRepository.totalSales();
+        Long todaySales = adminPaymentRepository.todaySales();
 
         Long totalBoards = adminBoardRepository.countAll();
         Long todayBoards = adminBoardRepository.countToday();
@@ -41,6 +43,8 @@ public class AdminSummaryServiceImpl implements AdminSummaryService {
                 .todayCrews(todayCrews)
                 .totalPayments(totalPayments)
                 .todayPayments(todayPayments)
+                .totalSales(totalSales)
+                .todaySales(todaySales)
                 .totalBoards(totalBoards)
                 .todayBoards(todayBoards)
                 .build();

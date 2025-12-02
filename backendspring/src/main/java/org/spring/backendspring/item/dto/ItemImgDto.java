@@ -52,7 +52,6 @@ public class ItemImgDto {
                 .oldName(itemImgEntity.getOldName())
                 .createTime(itemImgEntity.getCreateTime())
                 .updateTime(itemImgEntity.getUpdateTime())
-                .fileUrl(itemImgEntity.getFileUrl())
                 .build();
 
     }

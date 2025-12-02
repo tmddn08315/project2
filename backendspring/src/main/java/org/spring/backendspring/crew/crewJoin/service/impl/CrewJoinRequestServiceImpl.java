@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.spring.backendspring.board.dto.BoardDto;
 import org.spring.backendspring.common.RequestStatus;
 import org.spring.backendspring.common.dto.PagedResponse;
+import org.spring.backendspring.common.exception.CustomException;
+import org.spring.backendspring.common.exception.ErrorCode;
 import org.spring.backendspring.common.role.CrewRole;
 import org.spring.backendspring.crew.CrewRoleCheck;
 import org.spring.backendspring.crew.crew.entity.CrewEntity;
@@ -42,95 +44,77 @@ public class CrewJoinRequestServiceImpl implements CrewJoinRequestService {
     public CrewJoinRequestDto crewJoinRequest(CrewJoinRequestDto joinDto) {
         Long crewId = joinDto.getCrewRequestId();
         Long memberId = joinDto.getMemberRequestId();
-        //회원 맞냐?
+
+        // 회원 맞냐?
         MemberEntity memberEntity = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("회원이 아닌데 어떻게 가입신청함?"));
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
-        //크루 있냐?
+        // 크루 있냐?
         CrewEntity crewEntity = crewRepository.findById(crewId)
-                .orElseThrow(() -> new IllegalArgumentException("크루없는데 어떻게 해당 크루에 가입신청함?"));
+                .orElseThrow(() -> new CustomException(ErrorCode.CREW_NOT_FOUND));
 
-        //이미 크루멤버냐?
-        Optional<CrewMemberEntity> optionalCrewMember = crewMemberRepository.findByCrewEntityIdAndMemberEntityId(crewId,
-                memberId);
+        // 이미 크루멤버냐?
+        Optional<CrewMemberEntity> optionalCrewMember =
+                crewMemberRepository.findByCrewEntityIdAndMemberEntityId(crewId, memberId);
+
         if (optionalCrewMember.isPresent()) {
-            throw new IllegalArgumentException("이미 해당 크루 멤버임");
+            throw new CustomException(ErrorCode.CREW_JOIN_ALREADY_MEMBER);
         }
 
-        //이미 신청했냐?
-        Optional<CrewJoinRequestEntity> optionalCrewJoinRequestEntity = crewJoinRequestRepository.findByCrewEntityIdAndMemberEntityId(
-                crewId, memberId);
+        // 이미 신청했냐?
+        Optional<CrewJoinRequestEntity> optionalCrewJoinRequestEntity =
+                crewJoinRequestRepository.findByCrewEntityIdAndMemberEntityId(crewId, memberId);
+
         if (optionalCrewJoinRequestEntity.isPresent()) {
-            throw new IllegalArgumentException("이미 해당 크루 가입 요청 대기중임");
+            throw new CustomException(ErrorCode.CREW_JOIN_REQUEST_ALREADY_EXISTS);
         }
 
-        CrewJoinRequestEntity crewJoinRequestEntity = crewJoinRequestRepository.save(
-                CrewJoinRequestEntity.insertCrewJoinRequest(CrewJoinRequestDto.builder()
-                        .crewEntity(crewEntity)
-                        .memberEntity(memberEntity)
-                        .message(joinDto.getMessage())
-                        .build()));
+        CrewJoinRequestEntity crewJoinRequestEntity =
+                crewJoinRequestRepository.save(
+                        CrewJoinRequestEntity.insertCrewJoinRequest(
+                                CrewJoinRequestDto.builder()
+                                        .crewEntity(crewEntity)
+                                        .memberEntity(memberEntity)
+                                        .message(joinDto.getMessage())
+                                        .build()
+                        ));
 
         return CrewJoinRequestDto.crewJoinRequestDto(crewJoinRequestEntity);
     }
 
     @Override
     public Page<CrewJoinRequestDto> myCrewJoinList(Long crewId, Pageable pageable, String subject, String search) {
-        Page<CrewJoinRequestEntity> crewJoinRequestList = null;
-        if( subject==null || search==null || search.equals("")){
+        Page<CrewJoinRequestEntity> crewJoinRequestList;
+
+        if (subject == null || search == null || search.equals("")) {
             crewJoinRequestList = crewJoinRequestRepository.findAllByCrewEntityId(crewId, pageable);
-           } else if ("status".equals(subject)) {
-            RequestStatus status;
-            status = RequestStatus.valueOf(search);
-            crewJoinRequestList = crewJoinRequestRepository.findAllByCrewEntityIdAndStatus(crewId, pageable, status);
+        } else if ("status".equals(subject)) {
+            RequestStatus status = RequestStatus.valueOf(search);
+            crewJoinRequestList = crewJoinRequestRepository
+                    .findAllByCrewEntityIdAndStatus(crewId, pageable, status);
 
-           } else if ("id".equals(subject)) {
+        } else if ("id".equals(subject)) {
             Long searchId = Long.parseLong(search);
-            crewJoinRequestList = crewJoinRequestRepository.findAllByCrewEntityIdAndId(crewId, pageable, searchId);
+            crewJoinRequestList = crewJoinRequestRepository
+                    .findAllByCrewEntityIdAndId(crewId, pageable, searchId);
 
-           } else if ("memberRequestId".equals(subject)) {
+        } else if ("memberRequestId".equals(subject)) {
             Long searchId = Long.parseLong(search);
-            crewJoinRequestList = crewJoinRequestRepository.findAllByCrewEntityIdAndMemberEntityId(crewId, pageable, searchId);
+            crewJoinRequestList = crewJoinRequestRepository
+                    .findAllByCrewEntityIdAndMemberEntityId(crewId, pageable, searchId);
 
-           } else if ("message".equals(subject)) {
-            crewJoinRequestList = crewJoinRequestRepository.findAllByCrewEntityIdAndMessageContaining(crewId, pageable, search);
+        } else if ("message".equals(subject)) {
+            crewJoinRequestList = crewJoinRequestRepository
+                    .findAllByCrewEntityIdAndMessageContaining(crewId, pageable, search);
 
-           } else {
+        } else {
             crewJoinRequestList = crewJoinRequestRepository.findAllByCrewEntityId(crewId, pageable);
-           }
+        }
+
         return crewJoinRequestList.map(CrewJoinRequestDto::crewJoinRequestDto);
-
     }
 
-
-    //가입 승인
-//     @Override
-//     public void crewJoinRequestApproved(CrewJoinRequestDto joinDto, Long leaderId) {
-//         Long crewId = joinDto.getCrewRequestId();
-//         Long memberId = joinDto.getMemberRequestId();
-
-//         // 로그인 사용자의 crewRole을 가져옵니다.
-//         String crewRole = CrewRoleCheck.crewRoleCheckFn(leaderId, crewId, crewRepository);
-
-//         if (!crewRole.equals("LEADER")) {
-//             throw new IllegalArgumentException("크루 권한이 없습니다.");
-//         }
-
-//         CrewJoinRequestEntity request = crewJoinRequestRepository.findByCrewEntityIdAndMemberEntityId(crewId, memberId)
-//                 .orElseThrow(() -> new NullPointerException("가입신청 없음"));
-
-//         if (request.getStatus() != RequestStatus.PENDING) {
-//             throw new IllegalArgumentException("이미 처리함");
-//         }
-
-// //                    승인으로 변경
-//         crewJoinRequestRepository.save(CrewJoinRequestEntity.updateCrewJoinApproved(request));
-
-// //                    //크루 멤버 저장
-//         crewMemberRepository.save(CrewMemberEntity.insertCrewMember(request));
-//     }
-
-    //가입 승인
+    // 가입 승인
     @Override
     public void crewJoinRequestApproved(CrewJoinRequestDto joinDto, Long leaderId) {
         Long crewId = joinDto.getCrewRequestId();
@@ -139,25 +123,26 @@ public class CrewJoinRequestServiceImpl implements CrewJoinRequestService {
         // 로그인 사용자의 crewRole을 가져옵니다.
         String crewRole = CrewRoleCheck.crewRoleCheckFn(leaderId, crewId, crewRepository);
 
-        if (!crewRole.equals("LEADER")) {
-            throw new IllegalArgumentException("크루 권한이 없습니다.");
+        if (!"LEADER".equals(crewRole)) {
+            throw new CustomException(ErrorCode.CREW_PERMISSION_DENIED);
         }
 
-        CrewJoinRequestEntity request = crewJoinRequestRepository.findByCrewEntityIdAndMemberEntityId(crewId, memberId)
-                .orElseThrow(() -> new NullPointerException("가입신청 없음"));
+        CrewJoinRequestEntity request = crewJoinRequestRepository
+                .findByCrewEntityIdAndMemberEntityId(crewId, memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.CREW_JOIN_REQUEST_NOT_FOUND));
 
         if (request.getStatus() != RequestStatus.PENDING) {
-            throw new IllegalArgumentException("이미 처리함");
+            throw new CustomException(ErrorCode.CREW_JOIN_REQUEST_ALREADY_PROCESSED);
         }
 
-//                    승인으로 변경
+        // 승인으로 변경
         crewJoinRequestRepository.save(CrewJoinRequestEntity.updateCrewJoinApproved(request));
 
-//                    //크루 멤버 저장
+        // 크루 멤버 저장
         crewMemberRepository.save(CrewMemberEntity.insertCrewMember(request));
     }
 
-    //가입 거절
+    // 가입 거절
     @Override
     public void crewJoinRequestRejected(CrewJoinRequestDto joinDto, Long leaderId) {
         Long crewId = joinDto.getCrewRequestId();
@@ -165,21 +150,20 @@ public class CrewJoinRequestServiceImpl implements CrewJoinRequestService {
 
         String crewRole = CrewRoleCheck.crewRoleCheckFn(leaderId, crewId, crewRepository);
 
-        if (!crewRole.equals("LEADER")) {
-            throw new IllegalArgumentException("크루 권한이 없습니다.");
+        if (!"LEADER".equals(crewRole)) {
+            throw new CustomException(ErrorCode.CREW_PERMISSION_DENIED);
         }
 
-        CrewJoinRequestEntity request = crewJoinRequestRepository.findByCrewEntityIdAndMemberEntityId(crewId, memberId)
-                .orElseThrow(() -> new NullPointerException("가입신청 없음"));
+        CrewJoinRequestEntity request = crewJoinRequestRepository
+                .findByCrewEntityIdAndMemberEntityId(crewId, memberId)
+                .orElseThrow(() -> new CustomException(ErrorCode.CREW_JOIN_REQUEST_NOT_FOUND));
 
         if (request.getStatus() != RequestStatus.PENDING) {
-            throw new IllegalArgumentException("이미 처리함");
+            throw new CustomException(ErrorCode.CREW_JOIN_REQUEST_ALREADY_PROCESSED);
         }
 
-        //거절로 변경
+        // 거절로 변경
         crewJoinRequestRepository.save(CrewJoinRequestEntity.updateCrewJoinRejected(request));
-
-
     }
 
 }

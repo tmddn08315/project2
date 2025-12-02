@@ -3,6 +3,7 @@ package org.spring.backendspring.crew.crewBoard.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLRestriction;
 import org.spring.backendspring.common.BasicTime;
 import org.spring.backendspring.crew.crew.entity.CrewEntity;
 import org.spring.backendspring.member.entity.MemberEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "crew_board_tb")
+@SQLRestriction("member_id IN (SELECT m.member_id FROM member_tb m WHERE m.is_deleted = FALSE)")
 public class CrewBoardEntity extends BasicTime {
 
     @Id
@@ -57,6 +59,20 @@ public class CrewBoardEntity extends BasicTime {
                         .id(dto.getMemberId())
                         .build())
                 .crewBoardCommentEntities(dto.getCrewBoardCommentEntities())
+                .crewBoardImageEntities(dto.getCrewBoardImageEntities())
+                .build();
+    }
+    public static CrewBoardEntity toCrewBoardEntity2(CrewBoardDto dto) {
+        return CrewBoardEntity.builder()
+                .title(dto.getTitle())
+                .content(dto.getContent())
+                .crewEntity(CrewEntity.builder()
+                        .id(dto.getCrewId())
+                        .build())
+                .memberEntity(MemberEntity.builder()
+                        .id(dto.getMemberId())
+                        .build())
+                // .crewBoardCommentEntities(dto.getCrewBoardCommentEntities())
                 .crewBoardImageEntities(dto.getCrewBoardImageEntities())
                 .build();
     }
