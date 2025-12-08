@@ -47,3 +47,36 @@
 * **데이터 흐름:** 사용자의 요청은 프론트엔드 $\leftrightarrow$ 백엔드 $\leftrightarrow$ RDS 순으로 이동하며, 이미지 파일은 S3에서 직접 관리됩니다.
 
 ### 프론트엔드 디렉토리 구조 (주요 모듈)
+
+vite-front/ └── src/ ├── apis/ ├── components/ ├── container/ │ ├── admin/ │ ├── auth/ │ ├── cart/ # 장바구니 관련 컴포넌트 및 로직 │ ├── crew/ # 크루(그룹 활동) 관련 컴포넌트 │ ├── myPage/ # 마이페이지 │ ├── notice/ │ ├── payment/ # 결제 관련 컴포넌트 및 로직 │ └── store/ # 상품 상점 컴포넌트 ... └── slices/ # Redux Slices (e.g., CartSlice)
+
+
+---
+
+## 4. ✨ 프로젝트 주요 기능
+
+| 축 | 기능 | 상세 내용 |
+| :--- | :--- | :--- |
+| **상품 판매** | 상품 조회/상세, 장바구니, **PG 결제 연동**, 주문 관리 | 러닝 장비 쇼핑몰 기능 제공 |
+| **크루 활동** | 크루 게시글, **스케줄 관리 (캘린더)**, 실시간 채팅 (계획) | 사용자 간 그룹 활동 및 커뮤니케이션 지원 |
+
+---
+
+## 5. 🛠️ 담당 및 구현 기능 상세 (결제 모듈)
+
+저는 특히 **결제(Payment)** 및 **장바구니(Cart)** 모듈을 중점적으로 구현하여 사용자에게 안정적인 구매 경험을 제공했습니다.
+
+### 5.1. 결제 진행 (`PaymentPage.js`)
+* **데이터 통합:** 장바구니 정보 (`getCartByToken`)와 회원 정보 (`authDetailFn`)를 로딩하여 수령인 정보를 자동 완성하고 결제 데이터를 준비합니다.
+* **PG 연동:** 카카오페이 선택 시, 백엔드 API (`pgRequest`)를 통해 결제 준비를 요청하고 반환된 **승인 URL로 리다이렉트**하여 결제를 진행합니다.
+    * *관련 파일:* `PaymentPage.js`, `paymentApi.js`
+
+### 5.2. 결제 승인 및 성공 처리 (`PaymentApprovalPage.js`, `PaymentSuccessPage.js`)
+* **승인 콜백:** `PaymentApprovalPage`에서 PG사로부터 전달받은 **`pg_token`**을 추출하여 백엔드 승인 API를 호출함으로써 최종 결제 트랜잭션을 완료합니다.
+* **장바구니 초기화:** 결제 성공 후, `PaymentSuccessPage`에서 **Redux `dispatch(removeCart())`**를 호출하여 결제 완료된 상품을 장바구니 상태에서 제거합니다.
+    * *관련 파일:* `PaymentApprovalPage.js`, `PaymentSuccessPage.js`, `CartSlice.js`
+
+### 5.3. 주문 내역 및 배송 조회 (`PaymentListPage.js`, `DeliveryStatusModal.js`)
+* **주문 목록:** `getPaymentsByPage`를 통해 주문 목록을 페이징하여 보여주고, 검색 기능을 제공합니다.
+* **배송 상태 시각화:** `DeliveryStatusModal`을 구현하여 주문 상태(결제 대기, 배송 중, 완료 등)를 **타임라인 형태**로 시각화하여 상세 진행 상황을 제공합니다.
+    * *관련 파일:* `PaymentListPage.js`, `DeliveryStatusModal.js`
