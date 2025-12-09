@@ -48,7 +48,7 @@
 
 ### 프론트엔드 디렉토리 구조 (주요 모듈)
 
-vite-front/ 
+vite-front/ <br/>
 └── src/ 
 ├── apis/ 
 ├── components/ 
