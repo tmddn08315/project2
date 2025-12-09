@@ -48,20 +48,21 @@
 
 ### 프론트엔드 디렉토리 구조 (주요 모듈)
 
-vite-front/
-└── src/
-├── apis/ # API 호출 모듈
-├── components/ # 공통 컴포넌트
-├── container/ # 각 도메인(페이지)별 컨테이너
-│ ├── admin/ # 관리자 페이지
-│ ├── auth/ # 로그인/회원가입
-│ ├── cart/ # 장바구니 관련 컴포넌트 및 로직
-│ ├── crew/ # 크루(그룹 활동) 관련 컴포넌트
-│ ├── myPage/ # 마이페이지
-│ ├── notice/ # 공지사항
-│ ├── payment/ # 결제 관련 컴포넌트 및 로직
-│ └── store/ # 상품 상점 관련 페이지
-└── slices/ # Redux slices (예: cartSlice)
+vite-front/ <br/>
+└── src/ <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;├── apis/ &nbsp;&nbsp;&nbsp;&nbsp;# API 호출 모듈 <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;├── components/ &nbsp;&nbsp;&nbsp;&nbsp;# 공통 컴포넌트 <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;├── container/ &nbsp;&nbsp;&nbsp;&nbsp;# 각 도메인(페이지)별 컨테이너 <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;│ &nbsp;&nbsp;&nbsp;&nbsp;├── admin/ &nbsp;&nbsp;&nbsp;&nbsp;# 관리자 페이지 <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;│ &nbsp;&nbsp;&nbsp;&nbsp;├── auth/ &nbsp;&nbsp;&nbsp;&nbsp;# 로그인/회원가입 <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;│ &nbsp;&nbsp;&nbsp;&nbsp;├── cart/ &nbsp;&nbsp;&nbsp;&nbsp;# 장바구니 관련 컴포넌트 및 로직 <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;│ &nbsp;&nbsp;&nbsp;&nbsp;├── crew/ &nbsp;&nbsp;&nbsp;&nbsp;# 크루(그룹 활동) 관련 컴포넌트 <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;│ &nbsp;&nbsp;&nbsp;&nbsp;├── myPage/ &nbsp;&nbsp;&nbsp;&nbsp;# 마이페이지 <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;│ &nbsp;&nbsp;&nbsp;&nbsp;├── notice/ &nbsp;&nbsp;&nbsp;&nbsp;# 공지사항 <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;│ &nbsp;&nbsp;&nbsp;&nbsp;├── payment/ &nbsp;&nbsp;&nbsp;&nbsp;# 결제 관련 컴포넌트 및 로직 <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;│ &nbsp;&nbsp;&nbsp;&nbsp;└── store/ &nbsp;&nbsp;&nbsp;&nbsp;# 상품 상점 관련 페이지 <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;└── slices/ &nbsp;&nbsp;&nbsp;&nbsp;# Redux slices (예: cartSlice) <br/>
+
 
 
 ---
