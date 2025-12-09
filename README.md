@@ -60,8 +60,8 @@ vite-front/ <br/>
    │ ├── myPage/ # 마이페이지 <br/>
    │ ├── notice/ <br/>
    │ ├── payment/ # 결제 관련 컴포넌트 및 로직 <br/>
-   │ └── store/ # 상품 상점 컴포넌트 <br/>
-   ... └── slices/ # Redux Slices (e.g., CartSlice)
+   │ └── store/ # 상품 상점 컴포넌트 ... <br/> 
+     └── slices/ # Redux Slices (e.g., CartSlice)
 
 
 ---
