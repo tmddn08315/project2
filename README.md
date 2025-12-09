@@ -49,18 +49,18 @@
 ### 프론트엔드 디렉토리 구조 (주요 모듈)
 
 vite-front/ <br/>
-└── src/ 
-├── apis/ 
-├── components/ 
-├── container/ 
-   │ ├── admin/ 
-   │ ├── auth/ 
-   │ ├── cart/ # 장바구니 관련 컴포넌트 및 로직 
-   │ ├── crew/ # 크루(그룹 활동) 관련 컴포넌트 
-   │ ├── myPage/ # 마이페이지 
-   │ ├── notice/ 
-   │ ├── payment/ # 결제 관련 컴포넌트 및 로직 
-   │ └── store/ # 상품 상점 컴포넌트 
+└── src/ <br/>
+├── apis/ <br/>
+├── components/ <br/> 
+├── container/ <br/>  
+   │ ├── admin/ <br/>
+   │ ├── auth/ <br/>
+   │ ├── cart/ # 장바구니 관련 컴포넌트 및 로직 <br/>
+   │ ├── crew/ # 크루(그룹 활동) 관련 컴포넌트 <br/>
+   │ ├── myPage/ # 마이페이지 <br/>
+   │ ├── notice/ <br/>
+   │ ├── payment/ # 결제 관련 컴포넌트 및 로직 <br/>
+   │ └── store/ # 상품 상점 컴포넌트 <br/>
    ... └── slices/ # Redux Slices (e.g., CartSlice)
 
 
