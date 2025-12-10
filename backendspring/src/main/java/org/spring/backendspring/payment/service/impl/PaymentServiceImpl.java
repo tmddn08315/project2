@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class PaymentServiceImpl implements PaymentService {
 
-    private static final String KAKAO_AUTH_KEY = "5153d372489b6c481c38dab7bb500441";
+    private static final String KAKAO_AUTH_KEY = "KAKAO KEY";
     private static final String KAKAO_CID = "TC0ONETIME";
 
     private final PaymentRepository paymentRepository;
