@@ -86,7 +86,6 @@ vite-front/ <br/>
 
 저는 특히 **결제(Payment)** 및 **장바구니(Cart)** 모듈을 중점적으로 구현하여 사용자에게 안정적인 구매 경험을 제공했습니다.
 
-<br/>
 <장바구니 이미지>
 <img width="700" height="600" alt="image" src="https://github.com/user-attachments/assets/30eea88a-68cb-49ca-945c-1b8c4af033f5" />
 
