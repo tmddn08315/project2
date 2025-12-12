@@ -36,6 +36,8 @@
 | **애플리케이션** | **AWS EC2** | Spring Boot 서버 호스팅 |
 | **데이터베이스** | **AWS Aurora and RDS** | 관계형 데이터 저장 및 관리 |
 
+<img width="792" height="451" alt="image" src="https://github.com/user-attachments/assets/b79a87c1-0499-441c-9e07-0b97dc3943c3" />
+<img width="646" height="460" alt="image" src="https://github.com/user-attachments/assets/3a9d841f-925f-4a09-9c40-74a1812f38bc" />
 ---
 
 ## 3. 🏗️ 프로젝트 아키텍처 및 구조
