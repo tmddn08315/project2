@@ -85,6 +85,7 @@ vite-front/ <br/>
 ## 5. 🛠️ 담당 및 구현 기능 상세 (결제 모듈)
 
 저는 특히 **결제(Payment)** 및 **장바구니(Cart)** 모듈을 중점적으로 구현하여 사용자에게 안정적인 구매 경험을 제공했습니다.
+
 <br/>
 <장바구니 이미지>
 <img width="700" height="600" alt="image" src="https://github.com/user-attachments/assets/30eea88a-68cb-49ca-945c-1b8c4af033f5" />
@@ -93,13 +94,20 @@ vite-front/ <br/>
 * **데이터 통합:** 장바구니 정보 (`getCartByToken`)와 회원 정보 (`authDetailFn`)를 로딩하여 수령인 정보를 자동 완성하고 결제 데이터를 준비합니다.
 * **PG 연동:** 카카오페이 선택 시, 백엔드 API (`pgRequest`)를 통해 결제 준비를 요청하고 반환된 **승인 URL로 리다이렉트**하여 결제를 진행합니다.
     * *관련 파일:* `PaymentPage.js`, `paymentApi.js`
+<img width="700" height="600" alt="image" src="https://github.com/user-attachments/assets/f4181583-78d9-4eaf-a545-1d30e2e043fd" />
 
 ### 5.2. 결제 승인 및 성공 처리 (`PaymentApprovalPage.js`, `PaymentSuccessPage.js`)
 * **승인 콜백:** `PaymentApprovalPage`에서 PG사로부터 전달받은 **`pg_token`**을 추출하여 백엔드 승인 API를 호출함으로써 최종 결제 트랜잭션을 완료합니다.
 * **장바구니 초기화:** 결제 성공 후, `PaymentSuccessPage`에서 **Redux `dispatch(removeCart())`**를 호출하여 결제 완료된 상품을 장바구니 상태에서 제거합니다.
     * *관련 파일:* `PaymentApprovalPage.js`, `PaymentSuccessPage.js`, `CartSlice.js`
 
+<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/e50b9527-4c19-4c0d-932d-a93928ed94e4" />
+
 ### 5.3. 주문 내역 및 배송 조회 (`PaymentListPage.js`, `DeliveryStatusModal.js`)
 * **주문 목록:** `getPaymentsByPage`를 통해 주문 목록을 페이징하여 보여주고, 검색 기능을 제공합니다.
 * **배송 상태 시각화:** `DeliveryStatusModal`을 구현하여 주문 상태(결제 대기, 배송 중, 완료 등)를 **타임라인 형태**로 시각화하여 상세 진행 상황을 제공합니다.
     * *관련 파일:* `PaymentListPage.js`, `DeliveryStatusModal.js`
+
+<img width="700" height="600" alt="image" src="https://github.com/user-attachments/assets/273d1f55-4508-40ec-9533-298e2b9639cd" />
+<img width="700" height="600" alt="image" src="https://github.com/user-attachments/assets/7b1cf6a6-4b43-4b29-a834-828a604913f0" />
+
