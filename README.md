@@ -37,7 +37,8 @@
 | **데이터베이스** | **AWS Aurora and RDS** | 관계형 데이터 저장 및 관리 |
 
 <img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/b79a87c1-0499-441c-9e07-0b97dc3943c3" />
-<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/3a9d841f-925f-4a09-9c40-74a1812f38bc" />
+<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/91655887-6c54-43c8-bfb8-ba710b4ceec4" />
+
 ---
 
 ## 3. 🏗️ 프로젝트 아키텍처 및 구조
