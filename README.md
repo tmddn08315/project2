@@ -110,3 +110,8 @@ vite-front/ <br/>
 <img width="700" height="700" alt="image" src="https://github.com/user-attachments/assets/273d1f55-4508-40ec-9533-298e2b9639cd" />
 <img width="500" height="550" alt="image" src="https://github.com/user-attachments/assets/7b1cf6a6-4b43-4b29-a834-828a604913f0" />
 
+---
+
+## 6. 장바구니 및 결제 프로젝트 구현 영상
+
+
