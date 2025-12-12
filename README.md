@@ -150,3 +150,6 @@ vite-front/ <br/>
 ---
 
 ## 8. 🔗 API 페이지 구현영상
+
+<img src="./API 동영상.gif" width="600">
+
