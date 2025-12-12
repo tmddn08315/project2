@@ -116,3 +116,35 @@ vite-front/ <br/>
 
 <img src="./output2.gif" width="600">
 
+---
+
+## 7. 🔗 API 연동 및 추가 정보 제공 기능
+
+### 7.1. 🏃‍♂️ 국내 마라톤 대회 정보 API
+
+마라톤 참가자들에게 필요한 최신 대회 정보를 제공하기 위해 공공 데이터 포털 API를 연동했습니다.
+
+* **백엔드 역할:** `@PostConstruct`를 활용하여 서버 시작 시점에 외부 API 데이터를 DB에 적재하여 조회 성능을 확보합니다.
+* **검색 및 페이징:** 대회명 또는 대회 장소를 기준으로 검색하며, Spring Data JPA의 페이징 기능을 활용하여 효율적인 데이터 제공을 구현했습니다.
+
+| 구분 | 컴포넌트 | 기능 상세 |
+| :--- | :--- | :--- |
+| **백엔드** | `MarathonController` | `GET /api/marathons` 엔드포인트에서 `searchTerm`과 `Pageable`을 처리. |
+| | `MarathonRepository` | `findByNameContainingOrLocationContaining` 쿼리 메서드를 이용해 검색 쿼리 자동 생성. |
+| **프론트엔드** | `MarathonApiPage.js` | 백엔드의 페이징 응답을 받아 테이블로 렌더링하고, 검색 및 페이지네이션 UI를 제공. |
+
+### 7.2. ☀️ 현재 날씨 조회 및 DB 저장 API
+
+사용자가 러닝 전 활동 지역의 날씨를 확인할 수 있도록 OpenWeatherMap API를 연동했습니다.
+
+* **데이터 관리:** 외부 API 호출 결과를 데이터베이스(`WeatherEntity`)에 저장하고, 중복되는 도시 정보는 최신 데이터로 업데이트(**Upsert** 로직)하여 관리합니다.
+* **프론트엔드 직접 호출 (Note):** 날씨 정보는 백엔드를 거치지 않고 프론트엔드 컴포넌트 (`WeatherAdminFragment`)에서 OpenWeatherMap API를 **직접 호출**하여 켈빈 온도를 섭씨로 변환해 사용자에게 즉시 표시합니다. (키 관리 및 트래픽 최소화 목적)
+* **지도 연동:** 카카오 맵 SDK를 동적으로 로드하여 조회된 도시의 위도(`lat`)와 경도(`lon`)를 중심으로 지도를 표시하고 마커를 지정합니다.
+
+| 구분 | 컴포넌트 | 기능 상세 |
+| :--- | :--- | :--- |
+| **백엔드** | `WeatherController` | `GET /search/{q}` 엔드포인트에서 도시명을 수신, OpenWeatherMap 호출 후 `responseBody`를 서비스로 전달. |
+| | `WeatherServiceImpl` | `ObjectMapper`로 JSON 파싱 후, **도시명+위/경도+국가**를 기준으로 중복 체크 후 DB 저장/업데이트(Upsert) 처리. |
+| **프론트엔드** | `WeatherAdminFragment.js` | OpenWeatherMap 호출, 켈빈 $\rightarrow$ 섭씨 변환, 카카오 맵 로드 및 마커 표시. |
+
+---
