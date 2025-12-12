@@ -85,6 +85,8 @@ vite-front/ <br/>
 ## 5. 🛠️ 담당 및 구현 기능 상세 (결제 모듈)
 
 저는 특히 **결제(Payment)** 및 **장바구니(Cart)** 모듈을 중점적으로 구현하여 사용자에게 안정적인 구매 경험을 제공했습니다.
+<장바구니 이미지>
+<img width="700" height="600" alt="image" src="https://github.com/user-attachments/assets/30eea88a-68cb-49ca-945c-1b8c4af033f5" />
 
 ### 5.1. 결제 진행 (`PaymentPage.js`)
 * **데이터 통합:** 장바구니 정보 (`getCartByToken`)와 회원 정보 (`authDetailFn`)를 로딩하여 수령인 정보를 자동 완성하고 결제 데이터를 준비합니다.
