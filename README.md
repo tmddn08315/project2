@@ -101,7 +101,7 @@ vite-front/ <br/>
 * **장바구니 초기화:** 결제 성공 후, `PaymentSuccessPage`에서 **Redux `dispatch(removeCart())`**를 호출하여 결제 완료된 상품을 장바구니 상태에서 제거합니다.
     * *관련 파일:* `PaymentApprovalPage.js`, `PaymentSuccessPage.js`, `CartSlice.js`
 
-<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/e50b9527-4c19-4c0d-932d-a93928ed94e4" />
+<img width="400" height="250" alt="image" src="https://github.com/user-attachments/assets/e50b9527-4c19-4c0d-932d-a93928ed94e4" />
 
 ### 5.3. 주문 내역 및 배송 조회 (`PaymentListPage.js`, `DeliveryStatusModal.js`)
 * **주문 목록:** `getPaymentsByPage`를 통해 주문 목록을 페이징하여 보여주고, 검색 기능을 제공합니다.
@@ -109,5 +109,5 @@ vite-front/ <br/>
     * *관련 파일:* `PaymentListPage.js`, `DeliveryStatusModal.js`
 
 <img width="700" height="700" alt="image" src="https://github.com/user-attachments/assets/273d1f55-4508-40ec-9533-298e2b9639cd" />
-<img width="700" height="700" alt="image" src="https://github.com/user-attachments/assets/7b1cf6a6-4b43-4b29-a834-828a604913f0" />
+<img width="500" height="550" alt="image" src="https://github.com/user-attachments/assets/7b1cf6a6-4b43-4b29-a834-828a604913f0" />
 
