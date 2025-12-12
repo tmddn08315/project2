@@ -114,4 +114,5 @@ vite-front/ <br/>
 
 ## 6. 장바구니 및 결제 프로젝트 구현 영상
 
+<img src="./output2.gif" width="600">
 
