@@ -67,6 +67,8 @@ vite-front/ <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;│ &nbsp;&nbsp;&nbsp;&nbsp;└── store/ &nbsp;&nbsp;&nbsp;&nbsp;# 상품 상점 관련 페이지 <br/>
 &nbsp;&nbsp;&nbsp;&nbsp;└── slices/ &nbsp;&nbsp;&nbsp;&nbsp;# Redux slices (예: cartSlice) <br/>
 
+<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/5e93df86-5bf8-4fcb-8703-d2cabac5f116" />
+<img width="700" height="400" alt="image" src="https://github.com/user-attachments/assets/0017bf84-00fd-4c94-bf51-f166b946d6ee" />
 
 
 ---
