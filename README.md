@@ -148,3 +148,5 @@ vite-front/ <br/>
 | **프론트엔드** | `WeatherAdminFragment.js` | OpenWeatherMap 호출, 켈빈 $\rightarrow$ 섭씨 변환, 카카오 맵 로드 및 마커 표시. |
 
 ---
+
+## 8. 🔗 API 페이지 구현영상
