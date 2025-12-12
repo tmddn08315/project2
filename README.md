@@ -8,7 +8,7 @@
 * **배경 1:** 러닝 관련 장비의 수요 및 인기가 상승하고 있습니다.
 * **배경 2:** 혼자 뛰는 것을 넘어, 그룹으로 달리는 '크루 활동' 문화가 형성되고 있습니다.
 * **해결:** **러닝 장비 구매**와 **크루 활동 (그룹 활동)** 기능을 한 곳에서 제공하는 플랫폼을 구축했습니다.
-<img width="490" height="670" alt="image" src="https://github.com/user-attachments/assets/98c84941-3ad5-4984-94a6-718433884972" />
+<img width="290" height="470" alt="image" src="https://github.com/user-attachments/assets/98c84941-3ad5-4984-94a6-718433884972" />
 
 
 ---
